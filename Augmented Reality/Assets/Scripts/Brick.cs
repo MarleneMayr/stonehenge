@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Box : MonoBehaviour
+public class Brick : MonoBehaviour
 {
     void Update()
     {
         if (transform.position.y < -1)
         {
             Destroy(gameObject);
+            // TODO place back on top of playground instead
         }
     }
 }
