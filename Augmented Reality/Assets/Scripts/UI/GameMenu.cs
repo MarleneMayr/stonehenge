@@ -8,6 +8,7 @@ public class GameMenu : Menu
 {
     [SerializeField] private TextMeshProUGUI hudTxt;
     [SerializeField] private TextMeshProUGUI timerTxt;
+    [SerializeField] private TextMeshProUGUI scoreTxt;
 
     public void StartCountdown(Action onComplete)
     {
@@ -47,8 +48,13 @@ public class GameMenu : Menu
         hudTxt.gameObject.SetActive(false);
     }
 
-    internal void SetTimerTxt(string text)
+    public void SetTimerTxt(string text)
     {
         timerTxt.SetText(text);
+    }
+
+    public void SetScoreTxt(int score)
+    {
+        scoreTxt.SetText("score " + score);
     }
 }

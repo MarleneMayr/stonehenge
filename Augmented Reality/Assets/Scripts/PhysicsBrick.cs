@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using DG.Tweening;
+using JetBrains.Annotations;
 
 public class PhysicsBrick : Brick
 {
@@ -44,14 +45,48 @@ public class PhysicsBrick : Brick
         }
     }
 
-    public override Voxel[] getOccupiedVoxels()
+    public override Voxel[] getVoxels()
     {
-        occupiedVoxels = new Voxel[anchorsSize];
+        updateVoxels();
+        return voxels;
+    }
+
+    public void updateVoxels()
+    {
+        voxels = new Voxel[anchorsSize];
         for (int i = 0; i < anchorsSize; i++)
         {
-            occupiedVoxels[i] = new Voxel(anchors[i].position);
+            voxels[i] = new Voxel(anchors[i].position);
         }
-        return occupiedVoxels;
+    }
+
+    public bool match(Brick brick)
+    {
+        if (identifier == brick.id)
+        {
+            foreach (var voxel in brick.getVoxels())
+            {
+                // if at least one voxel does not match, the whole brick does not match
+                if (matchVoxel(voxel) == false) return false;
+            }
+            // if the check passed, then all voxels match
+            return true;
+        }
+        else
+        {
+            // return false if the identifier does not match
+            return false;
+        }
+    }
+
+    // assuming two center points can never be in the same voxel
+    private bool matchVoxel(Voxel other)
+    {
+        foreach (var v in voxels)
+        {
+            if (other.Equals(v)) return true;
+        }
+        return false;
     }
 
     // assuming that the center of the brick is always equal to the position of the center anchor

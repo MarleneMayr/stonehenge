@@ -9,7 +9,23 @@ public class Recipe : MonoBehaviour
     public Recipe Test()
     {
         Voxel[] temp = new Voxel[3] { new Voxel(new Vector3Int(-1, 0, -1)), new Voxel(new Vector3Int(0, 0, -1)), new Voxel(new Vector3Int(-2, 0, -1)) };
-        Brick b = new Brick(Brick.ID.green, temp);
+        Brick b = new Brick(Brick.ID.red, temp);
+        ingredients = new Brick[1] { b };
+
+        return this;
+    }
+    public Recipe Test2()
+    {
+        Voxel[] temp = new Voxel[3] { new Voxel(new Vector3Int(-1, 0, 1)), new Voxel(new Vector3Int(0, 0, 1)), new Voxel(new Vector3Int(-2, 0, 1)) };
+        Brick b = new Brick(Brick.ID.red, temp);
+        ingredients = new Brick[1] { b };
+
+        return this;
+    }
+    public Recipe Test3()
+    {
+        Voxel[] temp = new Voxel[3] { new Voxel(new Vector3Int(-1, 0, -1)), new Voxel(new Vector3Int(0, 0, -1)), new Voxel(new Vector3Int(1, 0, -1)) };
+        Brick b = new Brick(Brick.ID.red, temp);
         ingredients = new Brick[1] { b };
 
         return this;
@@ -30,7 +46,7 @@ public class Recipe : MonoBehaviour
         // check if any of the brick matches the one in the recipe
         foreach (var brick in bricks)
         {
-            if (ingredient.match(brick) == true) return true;
+            if (brick.match(ingredient) == true) return true;
         }
         // return false if none of the placed bricks matches
         return false;

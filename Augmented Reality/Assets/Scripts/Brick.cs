@@ -12,46 +12,30 @@ public class Brick : MonoBehaviour
         white
     }
 
-    [SerializeField] private ID identifier;
-    protected Voxel[] occupiedVoxels;
+    [SerializeField] protected ID identifier;
+    public ID id => identifier;
+
+    protected Voxel[] voxels;
 
     public Brick(ID id = ID.white, Voxel[] voxels = null)
     {
         identifier = id;
-        occupiedVoxels = voxels;
+        this.voxels = voxels;
     }
 
-    public virtual Voxel[] getOccupiedVoxels()
+    public virtual Voxel[] getVoxels()
     {
-        return occupiedVoxels;
+        return voxels;
     }
 
-    public bool match(Brick brick)
+    public override string ToString()
     {
-        if (identifier == brick.identifier)
+        if (voxels == null) return "NaN";
+        string result = "";
+        foreach (var v in voxels)
         {
-            foreach (var voxel in brick.occupiedVoxels)
-            {
-                // if at least one voxel does not match, the whole brick does not match
-                if (matchOccupiedVoxel(voxel) == false) return false;
-            }
-            // if the check passed, then all voxels match
-            return true;
+            result += $"{v.ToString()}";
         }
-        else
-        {
-            // return false if the identifier does not match
-            return false;
-        }
-    }
-
-    // assuming two center points can never be in the same voxel
-    private bool matchOccupiedVoxel(Voxel other)
-    {
-        foreach (var v in occupiedVoxels)
-        {
-            if (other.Equals(v)) return true;
-        }
-        return false;
+        return result;
     }
 }

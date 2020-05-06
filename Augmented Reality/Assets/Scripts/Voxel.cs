@@ -6,7 +6,7 @@ public class Voxel
     public static Vector3 SCALE3D = new Vector3(SCALE, SCALE, SCALE);
     private static Vector3 centerOffset = new Vector3(0.5f, 0.5f, 0.5f);
 
-    private Vector3Int coordinates;// { get; private set; }
+    private Vector3Int coordinates;
 
     public Voxel(Vector3 worldPosition)
     {
@@ -41,5 +41,10 @@ public class Voxel
         {
             return coordinates == ((Voxel)obj).coordinates;
         }
+    }
+
+    public override string ToString()
+    {
+        return coordinates.ToString();
     }
 }
