@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Transactions;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class StartupState : State
 {
