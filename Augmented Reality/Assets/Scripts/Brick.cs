@@ -1,15 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Brick : MonoBehaviour
 {
-    void Update()
+    public enum ID
     {
-        if (transform.position.y < -1)
-        {
-            Destroy(gameObject);
-            // TODO place back on top of playground instead
-        }
+        red,
+        blue,
+        yellow,
+        green,
+        white
+    }
+
+    [SerializeField] private ID identifier;
+
+    protected Voxel[] occupiedVoxels;
+
+    public virtual Voxel[] getOccupiedVoxels()
+    {
+        return occupiedVoxels;
     }
 }
