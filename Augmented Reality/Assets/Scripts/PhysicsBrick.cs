@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class PhysicsBrick : Brick
 {
-    public Transform[] anchors;
+    [SerializeField] private Transform[] anchors;
     private static int anchorsSize = 3;
 
     private void OnValidate()
@@ -15,8 +14,6 @@ public class PhysicsBrick : Brick
             Debug.LogWarning("Don't change the 'anchors' array size!");
             Array.Resize(ref anchors, anchorsSize);
         }
-
-        Debug.Log(transform.lossyScale); // get the global scale
     }
 
     private void Update()
@@ -55,5 +52,12 @@ public class PhysicsBrick : Brick
             occupiedVoxels[i] = new Voxel(anchors[i].position);
         }
         return occupiedVoxels;
+    }
+
+    // assuming that the center of the brick is always equal to the position of the center anchor
+    public void Drop()
+    {
+        Voxel v = new Voxel(transform.position);
+        transform.DOMove(v.getCenter(), 0.3f);
     }
 }
