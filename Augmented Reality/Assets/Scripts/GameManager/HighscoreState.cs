@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class HighscoreState : State
 {
-    [SerializeField] private HighscoreMenu highscoreMenu;
 
-    public override void Activate()
+    public override void AfterActivate()
     {
-        highscoreMenu.Show();
+        Debug.Log("Highscorestate activated");
     }
 
-    public override void Deactivate()
+    public override void BeforeDeactivate()
     {
-        highscoreMenu.Hide();
+
     }
 }

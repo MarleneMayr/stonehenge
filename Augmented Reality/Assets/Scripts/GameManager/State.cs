@@ -4,13 +4,47 @@ using UnityEngine;
 
 public abstract class State : MonoBehaviour
 {
-    protected StateMachine stateMachine;
+    [SerializeField] protected Menu menu;
+    protected float menuFadeDuration = 0.2f;
 
-    private void Awake()
+    protected StateMachine stateMachine;  
+    private ImageTargetHandler imageTarget;
+
+    protected virtual void Awake()
     {
         stateMachine = FindObjectOfType<StateMachine>();
     }
 
-    public abstract void Activate();
-    public abstract void Deactivate();
+    public void Activate()
+    {
+        imageTarget = FindObjectOfType<ImageTargetHandler>();
+        imageTarget.OnTrackerFound.AddListener(OnTrackerFound);
+        imageTarget.OnTrackerLost.AddListener(OnTrackerLost);
+
+        if (menu)
+        {
+            menu.Show(menuFadeDuration);
+        }
+
+        AfterActivate();
+    }
+
+    public void Deactivate()
+    {
+        BeforeDeactivate();
+
+        imageTarget.OnTrackerFound.RemoveListener(OnTrackerFound);
+        imageTarget.OnTrackerLost.RemoveListener(OnTrackerLost);
+
+        if (menu)
+        {
+            menu.Hide(menuFadeDuration);
+        }
+    }
+
+    public abstract void AfterActivate();
+    public abstract void BeforeDeactivate();
+
+    public virtual void OnTrackerFound() {}
+    public virtual void OnTrackerLost() {}
 }

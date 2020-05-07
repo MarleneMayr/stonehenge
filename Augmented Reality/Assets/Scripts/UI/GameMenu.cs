@@ -10,6 +10,8 @@ public class GameMenu : Menu
     [SerializeField] private TextMeshProUGUI timerTxt;
     [SerializeField] private TextMeshProUGUI scoreTxt;
 
+    public bool isCountdownOn = false;
+
     public void StartCountdown(Action onComplete)
     {
         StartCoroutine(Countdown(onComplete));
@@ -17,6 +19,7 @@ public class GameMenu : Menu
 
     private IEnumerator Countdown(Action onComplete)
     {
+        isCountdownOn = true;
         float speed = 0.5f;
         hudTxt.gameObject.SetActive(true);
 
@@ -46,6 +49,7 @@ public class GameMenu : Menu
 
         yield return new WaitForSeconds(2 * speed);
         hudTxt.gameObject.SetActive(false);
+        isCountdownOn = false;
     }
 
     public void SetTimerTxt(string text)

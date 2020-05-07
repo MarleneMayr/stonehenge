@@ -4,24 +4,36 @@ using UnityEngine;
 
 public class GameState : State
 {
-    [SerializeField] private GameMenu gameMenu;
     [SerializeField] private MoldChecker moldChecker;
     [SerializeField] private Cookbook cookbook;
 
+    private GameMenu gameMenu;
+    private Timer timer;
     private int score = 0;
 
-    public override void Activate()
+    protected override void Awake()
     {
-        gameMenu.StartCountdown(() => StartTimer());
+        base.Awake();
+        gameMenu = (GameMenu)menu;
+        timer = FindObjectOfType<Timer>();
+    }
 
-        NextRecipe();
+    public override void AfterActivate()
+    {
+        Debug.Log("Gamestate activated");
+        if (!timer.isRunning && !gameMenu.isCountdownOn)
+        {
+            gameMenu.StartCountdown(() => timer.StartTimer(100, gameMenu.SetTimerTxt, EndGame));
+
+            NextRecipe();
+        }
+        
         moldChecker.OnMoldMatch.AddListener(NextRecipe);
         moldChecker.OnMoldMatch.AddListener(UpdateScore);
     }
 
-    public override void Deactivate()
+    public override void BeforeDeactivate()
     {
-        gameMenu.Hide();
         moldChecker.StopChecking();
         moldChecker.OnMoldMatch.RemoveListener(NextRecipe);
         moldChecker.OnMoldMatch.RemoveListener(UpdateScore);
@@ -39,26 +51,15 @@ public class GameState : State
         print("start next");
     }
 
+    public override void OnTrackerLost()
+    {
+        stateMachine.GoTo<PausedState>();
+    }
+
     private void UpdateScore()
     {
         score++;
         gameMenu.SetScoreTxt(score);
-    }
-
-    private void StartTimer()
-    {
-        StartCoroutine(Timer(time: 60f, () => EndGame()));
-    }
-
-    private IEnumerator Timer(float time, Action onCompleted)
-    {
-        while (time > 0)
-        {
-            gameMenu.SetTimerTxt($"{time}");
-            yield return new WaitForSeconds(1);
-            time--;
-        }
-        onCompleted();
     }
 
     private void EndGame()

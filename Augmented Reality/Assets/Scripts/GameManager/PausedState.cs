@@ -1,25 +1,29 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class StartupState : State
+public class PausedState : State
 {
     [SerializeField] private GameObject playground;
 
     public override void AfterActivate()
     {
+        Debug.Log("Pausedstate activated");
         playground.SetActive(false);
         StartCoroutine(PauseTimerAfterFade(menuFadeDuration));
+        // TODO adjust audio
     }
 
     public override void BeforeDeactivate()
     {
         Time.timeScale = 1f;
         playground.SetActive(true);
+        // TODO adjust audio
     }
 
     public override void OnTrackerFound()
     {
-        stateMachine.GoTo<MenuState>();
+        stateMachine.GoTo<GameState>();
     }
 
     IEnumerator PauseTimerAfterFade(float time)
