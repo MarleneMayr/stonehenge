@@ -13,7 +13,6 @@ public class GameState : State
     public override void Activate()
     {
         gameMenu.StartCountdown(() => StartTimer());
-
         NextRecipe();
         moldChecker.OnMoldMatch.AddListener(NextRecipe);
         moldChecker.OnMoldMatch.AddListener(UpdateScore);
@@ -30,13 +29,8 @@ public class GameState : State
     private void NextRecipe()
     {
         Recipe next = cookbook.GetNext();
-        //print("------------------------\nRECIPE: ");
-        //foreach (var brick in next.Ingredients)
-        //{
-        //    print(brick.ToString());
-        //}
         moldChecker.StartChecking(next);
-        print("start next");
+        print("Start next recipe " + next.name);
     }
 
     private void UpdateScore()

@@ -1,54 +1,53 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Bricks;
+using UnityEditor;
 
-public class Recipe : MonoBehaviour
+[System.Serializable]
+public class Recipe : ScriptableObject
 {
-    private Brick[] ingredients;
+    public RecipeBrick[] ingredients;
+}
 
-    public Recipe Test()
+[CustomEditor(typeof(Recipe))]
+[CanEditMultipleObjects]
+public class RecipeEditor : Editor
+{
+    public override void OnInspectorGUI()
     {
-        Voxel[] temp = new Voxel[3] { new Voxel(new Vector3Int(-1, 0, -1)), new Voxel(new Vector3Int(0, 0, -1)), new Voxel(new Vector3Int(-2, 0, -1)) };
-        Brick b = new Brick(Brick.ID.red, temp);
-        ingredients = new Brick[1] { b };
+        Recipe recipe = (Recipe)target;
 
-        return this;
-    }
-    public Recipe Test2()
-    {
-        Voxel[] temp = new Voxel[3] { new Voxel(new Vector3Int(-1, 0, 1)), new Voxel(new Vector3Int(0, 0, 1)), new Voxel(new Vector3Int(-2, 0, 1)) };
-        Brick b = new Brick(Brick.ID.red, temp);
-        ingredients = new Brick[1] { b };
-
-        return this;
-    }
-    public Recipe Test3()
-    {
-        Voxel[] temp = new Voxel[3] { new Voxel(new Vector3Int(-1, 0, -1)), new Voxel(new Vector3Int(0, 0, -1)), new Voxel(new Vector3Int(1, 0, -1)) };
-        Brick b = new Brick(Brick.ID.red, temp);
-        ingredients = new Brick[1] { b };
-
-        return this;
-    }
-
-    public bool MatchRecipe(PhysicsBrick[] bricks)
-    {
-        foreach (var i in ingredients)
+        foreach (var brick in recipe.ingredients)
         {
-            // if any ingredient is missing, the recipe does not match the bricks
-            if (MatchIngredient(i, bricks) == false) return false;
+            using (new EditorGUI.IndentLevelScope())
+            {
+                EditorGUILayout.LabelField("Color:", brick.GetID().ToString());
+
+                var ranges = GetRanges(brick.GetVoxels());
+                EditorGUIUtility.labelWidth = 30;
+
+                using (var h = new EditorGUILayout.HorizontalScope("Button"))
+                {
+                    EditorGUILayout.LabelField("x:", $"{ranges[0].from} to {ranges[0].to}");
+                    EditorGUILayout.LabelField("y:", $"{ranges[1].from} to {ranges[1].to}");
+                    EditorGUILayout.LabelField("z:", $"{ranges[2].from} to {ranges[2].to}");
+                }
+                EditorGUIUtility.labelWidth = 0;
+            }
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider); // horizontal line cheat
         }
-        return true;
     }
 
-    private bool MatchIngredient(Brick ingredient, PhysicsBrick[] bricks)
+    private (int from, int to)[] GetRanges(Voxel[] voxels)
     {
-        // check if any of the brick matches the one in the recipe
-        foreach (var brick in bricks)
+        (int from, int to)[] ranges = new (int from, int to)[3];
+
+        Voxel reference = voxels[0];
+        for (int i = 1; i < voxels.Length; i++)
         {
-            if (brick.match(ingredient) == true) return true;
+            ranges[0] = (from: Mathf.Min(voxels[i].X, reference.X), to: Mathf.Max(voxels[i].X, reference.X));
+            ranges[1] = (from: Mathf.Min(voxels[i].Y, reference.Y), to: Mathf.Max(voxels[i].Y, reference.Y));
+            ranges[2] = (from: Mathf.Min(voxels[i].Z, reference.Z), to: Mathf.Max(voxels[i].Z, reference.Z));
         }
-        // return false if none of the placed bricks matches
-        return false;
+        return ranges;
     }
 }
