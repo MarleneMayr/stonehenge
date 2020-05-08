@@ -9,6 +9,7 @@ public class GameState : State
 
     private GameMenu gameMenu;
     private Timer timer;
+    private SelectionManager selectionManager;
     private int score = 0;
 
     protected override void Awake()
@@ -16,11 +17,13 @@ public class GameState : State
         base.Awake();
         gameMenu = (GameMenu)menu;
         timer = FindObjectOfType<Timer>();
+        selectionManager = FindObjectOfType<SelectionManager>();
     }
 
     public override void AfterActivate()
     {
-        Debug.Log("Gamestate activated");
+        selectionManager.Activate();
+
         if (!timer.isRunning && !gameMenu.isCountdownOn)
         {
             gameMenu.StartCountdown(() => timer.StartTimer(100, gameMenu.SetTimerTxt, EndGame));
@@ -37,6 +40,8 @@ public class GameState : State
         moldChecker.StopChecking();
         moldChecker.OnMoldMatch.RemoveListener(NextRecipe);
         moldChecker.OnMoldMatch.RemoveListener(UpdateScore);
+
+        selectionManager.Deactivate();
     }
 
     private void NextRecipe()
