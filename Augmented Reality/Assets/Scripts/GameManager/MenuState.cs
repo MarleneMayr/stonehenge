@@ -4,18 +4,28 @@ using UnityEngine;
 
 public class MenuState : State
 {
-    [SerializeField] private MainMenu mainMenu;
+    private MainMenu mainMenu;
 
-    public override void Activate()
+    protected override void Awake()
     {
-        mainMenu.Show();
+        base.Awake();
+        mainMenu = (MainMenu)menu;
+    }
+
+    public override void AfterActivate()
+    {
+        Debug.Log("Menustate activated");
         mainMenu.OnStartClicked.AddListener(StartGame);
     }
 
-    public override void Deactivate()
+    public override void BeforeDeactivate()
     {
-        mainMenu.Hide();
         mainMenu.OnStartClicked.RemoveListener(StartGame);
+    }
+
+    public override void OnTrackerLost()
+    {
+        stateMachine.GoTo<StartupState>();
     }
 
     private void StartGame()
