@@ -21,10 +21,7 @@ public abstract class State : MonoBehaviour
         imageTarget.OnTrackerFound.AddListener(OnTrackerFound);
         imageTarget.OnTrackerLost.AddListener(OnTrackerLost);
 
-        if (menu)
-        {
-            menu.Show(menuFadeDuration);
-        }
+        menu?.Show(menuFadeDuration);
 
         AfterActivate();
     }
@@ -36,10 +33,7 @@ public abstract class State : MonoBehaviour
         imageTarget.OnTrackerFound.RemoveListener(OnTrackerFound);
         imageTarget.OnTrackerLost.RemoveListener(OnTrackerLost);
 
-        if (menu)
-        {
-            menu.Hide(menuFadeDuration);
-        }
+        menu?.Hide(menuFadeDuration);
     }
 
     public abstract void AfterActivate();
