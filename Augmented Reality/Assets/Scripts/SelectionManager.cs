@@ -19,6 +19,22 @@ public class SelectionManager : MonoBehaviour
         isActive = false;
     }
 
+    public void HandleTap()
+    {
+        if (attachedObject != null)
+        {
+            DetachGameObject();
+        }
+        else if (hoveredObject)
+        {
+            AttachGameObject();
+        }
+        else
+        {
+            Debug.Log("Tapped without selection");
+        }
+    }
+
     private void Start()
     {
         joint = GetComponent<FixedJoint>();
@@ -58,7 +74,6 @@ public class SelectionManager : MonoBehaviour
 
     private void SelectObject(GameObject obj)
     {
-        Debug.Log("Brick selected");
         hoveredObject = obj;
         Outline hoveredOutline = hoveredObject.GetComponent<Outline>();
         hoveredOutline.OutlineWidth = 5;
@@ -68,40 +83,23 @@ public class SelectionManager : MonoBehaviour
     {
         if (hoveredObject == null) return;
 
-        Debug.Log("Brick deselected");
         Outline hoveredOutline = hoveredObject.GetComponent<Outline>();
         hoveredOutline.OutlineWidth = 0;
 
         hoveredObject = null;
     }
 
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    touched = collision.gameObject;
-    //    mat.color = Color.green;
-    //    collision.gameObject.GetComponent<MeshRenderer>().material.color = Color.green;
-    //}
-    //private void OnCollisionExit(Collision collision)
-    //{
-    //    if (touched == collision.gameObject)
-    //    {
-    //        touched = null;
-    //    }
-    //    mat.color = Color.white;
-    //    collision.gameObject.GetComponent<MeshRenderer>().material.color = Color.white;
-    //}
+    public void AttachGameObject()
+    {
+        var rb = hoveredObject?.GetComponent<Rigidbody>();
+        if (rb == null) return;
+        joint.connectedBody = rb;
+        attachedObject = hoveredObject;
+    }
 
-    //public void AttachGameObject()
-    //{
-    //    var rb = touched?.GetComponent<Rigidbody>();
-    //    if (rb == null) return;
-    //    joint.connectedBody = rb;
-    //    mat.color = Color.yellow;
-    //}
-
-    //public void DetachGameObject()
-    //{
-    //    joint.connectedBody = null;
-    //    mat.color = Color.white;
-    //}
+    public void DetachGameObject()
+    {
+        joint.connectedBody = null;
+        attachedObject = null;
+    }
 }

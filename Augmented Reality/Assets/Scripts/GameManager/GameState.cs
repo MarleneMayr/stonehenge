@@ -22,17 +22,18 @@ public class GameState : State
 
     public override void AfterActivate()
     {
-        selectionManager.Activate();
-
         if (!timer.isRunning && !gameMenu.isCountdownOn)
         {
             gameMenu.StartCountdown(() => timer.StartTimer(100, gameMenu.SetTimerTxt, EndGame));
 
             NextRecipe();
         }
-        
+     
         moldChecker.OnMoldMatch.AddListener(NextRecipe);
         moldChecker.OnMoldMatch.AddListener(UpdateScore);
+
+        gameMenu.ScreenTapped.AddListener(selectionManager.HandleTap);
+        selectionManager.Activate();
     }
 
     public override void BeforeDeactivate()
@@ -41,6 +42,7 @@ public class GameState : State
         moldChecker.OnMoldMatch.RemoveListener(NextRecipe);
         moldChecker.OnMoldMatch.RemoveListener(UpdateScore);
 
+        gameMenu.ScreenTapped.RemoveListener(selectionManager.HandleTap);
         selectionManager.Deactivate();
     }
 

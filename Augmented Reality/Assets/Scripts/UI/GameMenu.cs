@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameMenu : Menu
 {
@@ -11,6 +12,12 @@ public class GameMenu : Menu
     [SerializeField] private TextMeshProUGUI scoreTxt;
 
     public bool isCountdownOn = false;
+    public UnityEvent ScreenTapped;
+
+    public void Tap()
+    {
+        ScreenTapped.Invoke();
+    }
 
     public void StartCountdown(Action onComplete)
     {

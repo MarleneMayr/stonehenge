@@ -8,7 +8,6 @@ public class PausedState : State
 
     public override void AfterActivate()
     {
-        Debug.Log("Pausedstate activated");
         playground.SetActive(false);
         StartCoroutine(PauseTimerAfterFade(menuFadeDuration));
         // TODO adjust audio
