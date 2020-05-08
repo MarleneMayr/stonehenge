@@ -1,15 +1,41 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Data.Common;
 using UnityEngine;
 
 public class Brick : MonoBehaviour
 {
-    void Update()
+    public enum ID
     {
-        if (transform.position.y < -1)
+        red,
+        blue,
+        yellow,
+        green,
+        white
+    }
+
+    [SerializeField] protected ID identifier;
+    public ID id => identifier;
+
+    protected Voxel[] voxels;
+
+    public Brick(ID id = ID.white, Voxel[] voxels = null)
+    {
+        identifier = id;
+        this.voxels = voxels;
+    }
+
+    public virtual Voxel[] getVoxels()
+    {
+        return voxels;
+    }
+
+    public override string ToString()
+    {
+        if (voxels == null) return "NaN";
+        string result = "";
+        foreach (var v in voxels)
         {
-            Destroy(gameObject);
-            // TODO place back on top of playground instead
+            result += $"{v.ToString()}";
         }
+        return result;
     }
 }

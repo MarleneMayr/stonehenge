@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class StateMachine : MonoBehaviour
 {
@@ -23,9 +21,9 @@ public class StateMachine : MonoBehaviour
         currentState.Activate();
     }
 
-    private void OnEnable()
+    private void Start()
     {
-        Debug.Log("Statemachine enabled");
+        Debug.Log("Statemachine started");
         GoTo(initalState);
     }
 }
