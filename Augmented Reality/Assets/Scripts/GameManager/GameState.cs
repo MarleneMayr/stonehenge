@@ -32,8 +32,8 @@ public class GameState : State
         moldChecker.OnMoldMatch.AddListener(NextRecipe);
         moldChecker.OnMoldMatch.AddListener(UpdateScore);
 
-        gameMenu.ScreenTapped.AddListener(selectionManager.HandleTap);
         selectionManager.Activate();
+        gameMenu.ScreenTapped.AddListener(selectionManager.HandleTap);
     }
 
     public override void BeforeDeactivate()
