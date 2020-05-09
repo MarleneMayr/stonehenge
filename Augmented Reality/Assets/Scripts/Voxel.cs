@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[System.Serializable]
 public class Voxel
 {
     public static float SCALE = 0.1f;
@@ -7,6 +8,9 @@ public class Voxel
     private static Vector3 centerOffset = new Vector3(0.5f, 0.5f, 0.5f);
 
     private Vector3Int coordinates;
+    public int X => coordinates.x;
+    public int Y => coordinates.y;
+    public int Z => coordinates.z;
 
     public Voxel(Vector3 worldPosition)
     {
@@ -29,6 +33,11 @@ public class Voxel
     public Vector3 getCenter()
     {
         return (coordinates + centerOffset) * SCALE;
+    }
+
+    public Vector3Int GetDifference(Voxel other)
+    {
+        return other.coordinates - coordinates;
     }
 
     public override bool Equals(System.Object obj)
