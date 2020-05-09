@@ -5,6 +5,9 @@ public class SelectionManager : MonoBehaviour
 {
     private bool isActive = false;
 
+    enum Mode { Kinematic, Joint };
+    [SerializeField] private Mode mode = Mode.Kinematic;
+
     private GameObject hoveredObject;
     private GameObject attachedObject;
     private FixedJoint joint;
@@ -68,8 +71,7 @@ public class SelectionManager : MonoBehaviour
             {
                 ClearSelection();
             }
-        }
-        
+        }  
     }
 
     private void SelectObject(GameObject obj)
@@ -91,15 +93,40 @@ public class SelectionManager : MonoBehaviour
 
     public void AttachGameObject()
     {
-        var rb = hoveredObject?.GetComponent<Rigidbody>();
-        if (rb == null) return;
-        joint.connectedBody = rb;
         attachedObject = hoveredObject;
+        var rb = attachedObject.GetComponent<Rigidbody>();
+        
+        if (mode == Mode.Joint)
+        {
+            joint.connectedBody = rb;
+            rb.drag = 80;
+            rb.angularDrag = 80;
+        }
+        else if (mode == Mode.Kinematic)
+        {
+            attachedObject.transform.parent = Camera.main.transform;
+            rb.isKinematic = true;
+        }        
     }
 
     public void DetachGameObject()
     {
-        joint.connectedBody = null;
+        var rb = attachedObject.GetComponent<Rigidbody>();
+
+        if (mode == Mode.Joint)
+        {
+            joint.connectedBody = null;
+            rb.drag = 0;
+            rb.angularDrag = 0.05f;
+        }
+        else if (mode == Mode.Kinematic)
+        {
+            attachedObject.transform.parent = FindObjectOfType<MoldChecker>().transform;
+            rb.isKinematic = false;
+        }
+
+        
+
         attachedObject = null;
     }
 }
