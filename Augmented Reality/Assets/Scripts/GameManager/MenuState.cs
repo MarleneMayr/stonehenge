@@ -14,7 +14,6 @@ public class MenuState : State
 
     public override void AfterActivate()
     {
-        Debug.Log("Menustate activated");
         mainMenu.OnStartClicked.AddListener(StartGame);
     }
 
