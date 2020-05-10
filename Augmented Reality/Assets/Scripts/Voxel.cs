@@ -3,7 +3,7 @@
 [System.Serializable]
 public class Voxel
 {
-    public static float SCALE = 0.1f;
+    public static float SCALE = 0.05f;
     public static Vector3 SCALE3D = new Vector3(SCALE, SCALE, SCALE);
     private static Vector3 centerOffset = new Vector3(0.5f, 0.5f, 0.5f);
 
