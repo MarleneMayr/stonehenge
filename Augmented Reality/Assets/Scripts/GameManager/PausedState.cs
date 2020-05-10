@@ -6,11 +6,15 @@ public class PausedState : State
 {
     [SerializeField] private GameObject playground;
 
+    PausedState()
+    {
+        menuFadeDuration = 0f;
+    }
+
     public override void AfterActivate()
     {
-        Debug.Log("Pausedstate activated");
-        playground.SetActive(false);
-        StartCoroutine(PauseTimerAfterFade(menuFadeDuration));
+        playground.SetActive(false);      
+        Time.timeScale = 0f;
         // TODO adjust audio
     }
 
@@ -24,11 +28,5 @@ public class PausedState : State
     public override void OnTrackerFound()
     {
         stateMachine.GoTo<GameState>();
-    }
-
-    IEnumerator PauseTimerAfterFade(float time)
-    {
-        yield return new WaitForSeconds(time);
-        Time.timeScale = 0f;
     }
 }
