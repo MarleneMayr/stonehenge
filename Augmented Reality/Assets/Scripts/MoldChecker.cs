@@ -5,7 +5,7 @@ using Bricks;
 
 public class MoldChecker : MonoBehaviour
 {
-    public UnityEvent OnMoldMatch;
+    public UnityEvent<int> OnMoldMatch;
 
     private PhysicsBrick[] bricks;
     private Recipe currentRecipe;
@@ -47,7 +47,7 @@ public class MoldChecker : MonoBehaviour
         UpdateAllActivePhysicsBricks();
 
         bool isMatching = MatchRecipe(currentRecipe);
-        if (isMatching) OnMoldMatch.Invoke();
+        if (isMatching) OnMoldMatch.Invoke(currentRecipe.ingredients.Length);
         return isMatching;
     }
 
