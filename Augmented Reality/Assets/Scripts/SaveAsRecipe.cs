@@ -5,7 +5,6 @@ using Bricks;
 
 public class SaveAsRecipe
 {
-    [MenuItem("Tools/Save as recipe")]
     public static Recipe CreateRecipeAsset(bool redirectToAsset = true)
     {
         Recipe asset = ScriptableObject.CreateInstance<Recipe>();
@@ -31,7 +30,7 @@ public class SaveAsRecipe
         for (int i = 0; i < physicsBricks.Length; i++)
         {
             PhysicsBrick pBrick = physicsBricks[i];
-            pBrick.transform.position = new Voxel(pBrick.transform.position).getCenter();
+            VoxelUtility.AlignBrick(pBrick);
             RecipeBrick brick = new RecipeBrick(pBrick.GetID(), pBrick.GetVoxels());
 
             recipeBricks[i] = brick;
