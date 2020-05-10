@@ -4,11 +4,19 @@ using UnityEngine;
 public class StartupState : State
 {
     [SerializeField] private GameObject playground;
+    AudioManager audioManager;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        audioManager = FindObjectOfType<AudioManager>();
+    }
 
     public override void AfterActivate()
     {
         playground.SetActive(false);
         StartCoroutine(PauseTimerAfterFade(menuFadeDuration));
+        audioManager.PlayOnce(AudioManager.GlobalSound.BirdsLoop);
     }
 
     public override void BeforeDeactivate()

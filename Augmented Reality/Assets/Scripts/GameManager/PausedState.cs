@@ -5,9 +5,12 @@ using UnityEngine;
 public class PausedState : State
 {
     [SerializeField] private GameObject playground;
+    AudioManager audioManager;
 
-    PausedState()
+    protected override void Awake()
     {
+        base.Awake();
+        audioManager = FindObjectOfType<AudioManager>();
         menuFadeDuration = 0f;
     }
 
@@ -15,14 +18,16 @@ public class PausedState : State
     {
         playground.SetActive(false);      
         Time.timeScale = 0f;
-        // TODO adjust audio
+        audioManager.Pause(AudioManager.GlobalSound.TickingLoop);
+        audioManager.Pause(AudioManager.GlobalSound.Last10Seconds);
     }
 
     public override void BeforeDeactivate()
     {
         Time.timeScale = 1f;
         playground.SetActive(true);
-        // TODO adjust audio
+        audioManager.ResumeIfPaused(AudioManager.GlobalSound.TickingLoop);
+        audioManager.ResumeIfPaused(AudioManager.GlobalSound.Last10Seconds);
     }
 
     public override void OnTrackerFound()

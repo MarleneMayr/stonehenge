@@ -116,7 +116,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 1
+  m_CollisionDetection: 3
 --- !u!114 &6696921593519909388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,7 +260,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b327aa47d0c49b4459ad66a95401517f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sound: {fileID: 8300000, guid: 979cc5474e4af9d4683d14343821868b, type: 3}
 --- !u!1 &3472220156565720605
 GameObject:
   m_ObjectHideFlags: 0

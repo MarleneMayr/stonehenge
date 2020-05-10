@@ -10,6 +10,7 @@ public class GameState : State
     private GameMenu gameMenu;
     private Timer timer;
     private SelectionManager selectionManager;
+    AudioManager audioManager;
     private int score = 0;
 
     protected override void Awake()
@@ -18,13 +19,17 @@ public class GameState : State
         gameMenu = (GameMenu)menu;
         timer = FindObjectOfType<Timer>();
         selectionManager = FindObjectOfType<SelectionManager>();
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     public override void AfterActivate()
     {
         if (!timer.isRunning && !gameMenu.isCountdownOn)
         {
-            gameMenu.StartCountdown(() => timer.StartTimer(100, gameMenu.SetTimerTxt, EndGame));
+            gameMenu.StartCountdown(() => {
+                timer.StartTimer(100, gameMenu.SetTimerTxt, EndGame);
+                audioManager.PlayOnce(AudioManager.GlobalSound.TickingLoop);
+            });
 
             NextRecipe();
         }
@@ -55,7 +60,7 @@ public class GameState : State
         //    print(brick.ToString());
         //}
         moldChecker.StartChecking(next);
-        print("start next");
+        //print("start next");
     }
 
     public override void OnTrackerLost()
@@ -71,6 +76,8 @@ public class GameState : State
 
     private void EndGame()
     {
+        audioManager.Stop(AudioManager.GlobalSound.TickingLoop);
+        audioManager.Stop(AudioManager.GlobalSound.Last10Seconds);
         stateMachine.GoTo<HighscoreState>();
     }
 }

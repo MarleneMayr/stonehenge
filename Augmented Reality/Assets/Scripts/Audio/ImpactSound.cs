@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class ImpactSound : MonoBehaviour
 {
-    [SerializeField] AudioClip sound;
     AudioSource audioSource;
+    AudioManager audioManager;
 
     // Start is called before the first frame update
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.relativeVelocity.magnitude > 1)
+        if (collision.relativeVelocity.magnitude > 0.05)
         {
-            float volumeScale = Mathf.Max(collision.relativeVelocity.magnitude / 10.0f, 1f);
-            audioSource.PlayOneShot(sound, volumeScale);
-            // TODO vary impact sounds and pitch
-            // use different sound depending on material (floor/brick)
-            // maybe: play sound only on one brick if two bricks collide
-            // play in audiomanager or here?0
+            audioManager.PlayImpactSound(audioSource, collision.relativeVelocity.magnitude);
+        }
+        else if (collision.rigidbody.isKinematic)
+        {
+            audioManager.PlayImpactSound(audioSource, Camera.main.velocity.magnitude);
         }
     }
 
@@ -30,9 +30,7 @@ public class ImpactSound : MonoBehaviour
     {
         if (collision.relativeVelocity.magnitude > 1)
         {
-            float volumeScale = Mathf.Max(collision.relativeVelocity.magnitude / 10.0f, 1f);
-            audioSource.PlayOneShot(sound, volumeScale);
-            // TODO vary impact sounds and pitch
+            audioManager.PlayImpactSound(audioSource, collision.relativeVelocity.magnitude);
         }
     }
 }

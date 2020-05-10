@@ -60,6 +60,7 @@ public class SelectionManager : MonoBehaviour
                 }
                 else if (hit.transform.CompareTag("Selectable"))
                 {
+                    ClearSelection();
                     SelectObject(hit.transform.gameObject);
                 }
                 else
