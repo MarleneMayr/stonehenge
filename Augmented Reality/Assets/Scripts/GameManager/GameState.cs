@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -11,6 +11,7 @@ public class GameState : State
 
     private GameMenu gameMenu;
     private Timer timer;
+    private SelectionManager selectionManager;
     private int score = 0;
 
     protected override void Awake()
@@ -18,6 +19,7 @@ public class GameState : State
         base.Awake();
         gameMenu = (GameMenu)menu;
         timer = FindObjectOfType<Timer>();
+        selectionManager = FindObjectOfType<SelectionManager>();
     }
 
     public override void AfterActivate()
@@ -29,8 +31,8 @@ public class GameState : State
         }
 
         gameMenu.SetTimerWarning(false);
-        moldChecker.OnMoldMatch.AddListener(NextRecipe);
-        moldChecker.OnMoldMatch.AddListener(UpdateScore);
+        selectionManager.Activate();
+        gameMenu.ScreenTapped.AddListener(selectionManager.HandleTap);
     }
 
     public override void BeforeDeactivate()
@@ -41,6 +43,9 @@ public class GameState : State
         timer.OnTimerTick.RemoveListener(UpdateTime);
         moldChecker.OnMoldMatch.RemoveListener(NextRecipe);
         moldChecker.OnMoldMatch.RemoveListener(UpdateScore);
+
+        gameMenu.ScreenTapped.RemoveListener(selectionManager.HandleTap);
+        selectionManager.Deactivate();
     }
 
     private void InitializeGame()
@@ -49,6 +54,9 @@ public class GameState : State
         gameMenu.Hide(0); // hide immediately to show only countdown
         countdownMenu.StartCountdown(StartGame);
         moldChecker.StartChecking(cookbook.GetNext());
+
+        moldChecker.OnMoldMatch.AddListener(NextRecipe);
+        moldChecker.OnMoldMatch.AddListener(UpdateScore);
     }
 
     private void StartGame()

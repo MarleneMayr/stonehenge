@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
+using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class GameMenu : Menu
@@ -11,6 +13,12 @@ public class GameMenu : Menu
     [SerializeField] private Color colorWarning;
 
     private bool isWarning = false;
+    public UnityEvent ScreenTapped;
+
+    public void Tap()
+    {
+        ScreenTapped?.Invoke();
+    }
 
     public void SetScoreTxt(int score)
     {
