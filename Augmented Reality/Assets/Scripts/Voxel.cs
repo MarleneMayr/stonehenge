@@ -1,13 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-[System.Serializable]
+[Serializable]
 public class Voxel
 {
     public static float SCALE = 0.05f;
     public static Vector3 SCALE3D = new Vector3(SCALE, SCALE, SCALE);
     private static Vector3 centerOffset = new Vector3(0.5f, 0.5f, 0.5f);
 
-    private Vector3Int coordinates;
+    public Vector3Int coordinates;
     public Vector3Int Coordinates => coordinates;
     public int X => coordinates.x;
     public int Y => coordinates.y;

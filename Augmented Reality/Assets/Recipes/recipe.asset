@@ -14,8 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredients:
   - identifier: 0
-    voxels: []
-  - identifier: 2
-    voxels: []
+    voxels:
+    - coordinates: {x: 0, y: 0, z: -1}
+    - coordinates: {x: 0, y: 0, z: 0}
+    - coordinates: {x: 0, y: 0, z: 1}
   - identifier: 1
-    voxels: []
+    voxels:
+    - coordinates: {x: 0, y: 0, z: 2}
+    - coordinates: {x: 0, y: 0, z: 3}
+    - coordinates: {x: 0, y: 0, z: 4}
