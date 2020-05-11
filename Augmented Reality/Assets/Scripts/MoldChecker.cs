@@ -11,11 +11,13 @@ public class MoldChecker : MonoBehaviour
 
     private PhysicsBrick[] bricks;
     private Recipe currentRecipe;
+    private AudioManager audioManager;
 
     private void Start()
     {
         var brickSpawner = FindObjectOfType<PhysicsBrickSpawner>();
         brickSpawner.OnSpawnedAllBricks.AddListener((PhysicsBrick[] spawnedBricks) => bricks = spawnedBricks);
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     public void StartChecking(Recipe recipe, float interval = 1)
@@ -54,7 +56,11 @@ public class MoldChecker : MonoBehaviour
         UpdateAllActivePhysicsBricks();
 
         bool isMatching = MatchRecipe(currentRecipe);
-        if (isMatching) OnMoldMatch?.Invoke(currentRecipe.ingredients.Length);
+        if (isMatching)
+        {
+            OnMoldMatch?.Invoke(currentRecipe.ingredients.Length);
+            audioManager.Play(AudioManager.GlobalSound.Success);
+        }
         return isMatching;
     }
 

@@ -17,6 +17,7 @@ public class GameState : State
 
     private Timer timer;
     private SelectionManager selectionManager;
+    private AudioManager audioManager;
     private int score = 0;
 
     protected override void Awake()
@@ -24,6 +25,7 @@ public class GameState : State
         base.Awake();
         timer = FindObjectOfType<Timer>();
         selectionManager = FindObjectOfType<SelectionManager>();
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     public override void AfterActivate()
@@ -32,6 +34,7 @@ public class GameState : State
 
         countdownMenu.StartCountdown(StartGame);
         gameMenu.SetTimerWarning(false);
+        audioManager.PlayOnce(AudioManager.GlobalSound.Countdown);
     }
 
     public override void BeforeDeactivate()
@@ -48,6 +51,11 @@ public class GameState : State
 
         gameMenu.ScreenTapped.RemoveListener(selectionManager.HandleTap);
         selectionManager.Deactivate();
+
+        // TODO Audio here or in EndGame() ?
+        audioManager.Play(AudioManager.GlobalSound.GameOver);
+        audioManager.Stop(AudioManager.GlobalSound.TickingLoop);
+        audioManager.Stop(AudioManager.GlobalSound.Last10Seconds);
     }
 
     private void StartGame()
@@ -56,6 +64,7 @@ public class GameState : State
 
         timer.StartTimer(15, EndGame);
         timer.OnTimerTick.AddListener(UpdateTime);
+        audioManager.PlayOnce(AudioManager.GlobalSound.TickingLoop);
 
         selectionManager.Activate();
         gameMenu.ScreenTapped.AddListener(selectionManager.HandleTap);
@@ -96,7 +105,8 @@ public class GameState : State
         playground.SetActive(false);
         Time.timeScale = 0f;
 
-        // TODO pause timer audio
+        audioManager.PauseIfPlaying(AudioManager.GlobalSound.Countdown);
+        audioManager.PauseIfPlaying(AudioManager.GlobalSound.TickingLoop);
     }
 
     public void Unpause()
@@ -109,7 +119,8 @@ public class GameState : State
         if (!countdownMenu.isRunning) gameMenu.Show();
         if (!keepSelectionOnPause) selectionManager.Activate();
 
-        // TODO pause timer audio
+        audioManager.ResumeIfPaused(AudioManager.GlobalSound.Countdown);
+        audioManager.ResumeIfPaused(AudioManager.GlobalSound.TickingLoop);
     }
 
     private void UpdateTime(int time)
@@ -126,10 +137,6 @@ public class GameState : State
 
     private void EndGame()
     {
-        // TODO play sound
-        // TODO drop brick if still one is selected
-        // TODO maybe deactivate playgroun? => check how it looks with playground on
-        // TODO actually the above 3 things could be done in deactivate now
         stateMachine.GoTo<HighscoreState>();
     }
 }
