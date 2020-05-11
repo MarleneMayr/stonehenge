@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections.Generic;
 
 public class Highscore : MonoBehaviour
@@ -7,6 +8,8 @@ public class Highscore : MonoBehaviour
     public string playerName = "";
 
     dreamloLeaderBoard dreamlo;
+
+    private Action<dreamloLeaderBoard.Score> returnPersonalBestAction;
 
     void Start()
     {
@@ -34,26 +37,25 @@ public class Highscore : MonoBehaviour
         return highscore.Find(score => score.playerName == playerName && score.score == gameScore);
     }
 
-    public dreamloLeaderBoard.Score GetPersonalBest()
+    public void GetPersonalBest(Action<dreamloLeaderBoard.Score> returnAction)
     {
-        dreamlo.GetScores();
+        returnPersonalBestAction = returnAction;
+        dreamlo.GetScores(ReturnPersonalBest);
+    }
+
+    private void ReturnPersonalBest()
+    {
         List<dreamloLeaderBoard.Score> highscore = dreamlo.ToListHighToLow();
-        return highscore.Find(score => score.playerName == playerName);
 
-        /*
-         * // async TODO methode public async machen
-        bool highscoreAvailable = dreamlo.GetScores();
-
-        if (highscoreAvailable) 
+        if (highscore.Count > 0)
         {
-            List<dreamloLeaderBoard.Score> highscore = dreamlo.ToListHighToLow();
-            return highscore.Find(score => score.playerName == playerName);
+            dreamloLeaderBoard.Score previousBest = highscore.Find(score => score.playerName == playerName);
+            returnPersonalBestAction(previousBest);
         }
         else
         {
-            Debug.LogWarning("Dreamlo: Previous Highscore could not be loaded");
+            Debug.LogWarning("Dreamlo: Previous Highscore List could not be loaded");
         }
-        */
     }
 
 }

@@ -48,12 +48,17 @@ public class HighscoreState : State
     private void StoreScoreAndShowLeaderboard(string name)
     {
         highscore.playerName = name;
-
-        dreamloLeaderBoard.Score previousBest = highscore.GetPersonalBest();
-        highscore.UploadScore();
+        highscore.GetPersonalBest(GotPreviousBest);
+        
         List<dreamloLeaderBoard.Score> scores = highscore.GetTopFive();
         dreamloLeaderBoard.Score currentScore = highscore.GetCurrentRanking();
 
-        highscoreMenu.ShowOnlineHighscores(scores, currentScore, previousBest);
+        //highscoreMenu.ShowOnlineHighscores(scores, currentScore, previousBest);
+    }
+
+    private void GotPreviousBest(dreamloLeaderBoard.Score previousBest)
+    {
+        Debug.Log("Previous best for " + previousBest.playerName + " : " + previousBest.score);
+        highscore.UploadScore(); // once this is finished call action to receive rest and display
     }
 }

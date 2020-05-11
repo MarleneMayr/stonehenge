@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 using UnityEngine.Networking;
 
@@ -99,21 +100,13 @@ public class dreamloLeaderBoard : MonoBehaviour {
 		
 		StartCoroutine(GetRequest(dreamloWebserviceURL + privateCode + "/add-pipe/" + UnityWebRequest.EscapeURL(playerName) + "/" + totalScore.ToString() + "/" + totalSeconds.ToString()+ "/" + shortText));
 	}
-	
-	public void GetScores()
-	{
-		highScores = "";
-		StartCoroutine(GetRequest(dreamloWebserviceURL +  publicCode  + "/pipe"));
-	}
 
-    /*
-    // async
-    public async bool GetScores()
-	{
-		highScores = "";
-		return await GetRequest(dreamloWebserviceURL +  publicCode  + "/pipe");
-	}
-    */
+    
+    public void GetScores(Action onDataAvailable = null)
+    {
+        highScores = "";
+        StartCoroutine(GetRequest(dreamloWebserviceURL + publicCode + "/pipe", onDataAvailable));
+    }
 
     void GetSingleScore(string playerName)
 	{
@@ -121,7 +114,8 @@ public class dreamloLeaderBoard : MonoBehaviour {
 		StartCoroutine(GetRequest(dreamloWebserviceURL +  publicCode  + "/pipe-get/" + UnityWebRequest.EscapeURL(playerName)));
 	}
 
-	IEnumerator GetRequest(string url)
+    
+	IEnumerator GetRequest(string url, Action onDataAvailable = null)
 	{
 		// Something not working? Try copying/pasting the url into your web browser and see if it works.
 		// Debug.Log(url);
@@ -130,23 +124,9 @@ public class dreamloLeaderBoard : MonoBehaviour {
 		{
 			yield return www.SendWebRequest();
 			highScores = www.downloadHandler.text;
+            onDataAvailable?.Invoke();
 		}
 	}
-
-    /*
-    // async
-    private async bool GetRequest(string url)
-	{
-		using (UnityWebRequest www = UnityWebRequest.Get(url))
-		{
-			bool isRequestSuccessful = www.SendWebRequest();
-			highScores = www.downloadHandler.text;
-            return isRequestSuccessful;
-		}
-	}
-
-    */
-
 
     public string[] ToStringArray()
 	{
