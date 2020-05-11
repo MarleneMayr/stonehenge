@@ -12,7 +12,6 @@ public class AudioManager : MonoBehaviour
         TickingLoop,
         Last10Seconds,
         Success,
-        Spawn,
         GameOver
     }
 

@@ -17,7 +17,7 @@ public class GameState : State
 
     private Timer timer;
     private SelectionManager selectionManager;
-    AudioManager audioManager;
+    private AudioManager audioManager;
     private int score = 0;
 
     protected override void Awake()
