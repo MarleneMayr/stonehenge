@@ -1,6 +1,8 @@
 ﻿using Bricks;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PhysicsBrickSpawner : MonoBehaviour
 {
@@ -10,6 +12,10 @@ public class PhysicsBrickSpawner : MonoBehaviour
     [SerializeField] private float spacing; // should be 0.5f but is open for tweaking
     [SerializeField] private Vector3 orientation; // should be Vector3(0, 0, 1) but is open for tweaking
     [SerializeField] private Color[] colors;
+
+    private List<PhysicsBrick> spawnedBricks = new List<PhysicsBrick>();
+    [Serializable] public class BrickEvent : UnityEvent<PhysicsBrick[]> { }
+    public BrickEvent OnSpawnedAllBricks;
 
     private void OnValidate()
     {
@@ -52,6 +58,7 @@ public class PhysicsBrickSpawner : MonoBehaviour
             var brick = Instantiate(brickPrefab, transform);
             InitBrick(brick, i, reference);
         }
+        OnSpawnedAllBricks?.Invoke(spawnedBricks.ToArray());
     }
 
     private void InitBrick(PhysicsBrick brick, int identifier, VoxelReference reference)
@@ -60,6 +67,7 @@ public class PhysicsBrickSpawner : MonoBehaviour
         brick.SetReferenceBrick(reference);
         BrickUtility.PlaceBrickAbsolute(brick, GetSpawnPosition(identifier), orientation);
         brick.OnBrickFellDown.AddListener(RespawnBrick);
+        spawnedBricks.Add(brick);
     }
 
     private void RespawnBrick(PhysicsBrick brick)
