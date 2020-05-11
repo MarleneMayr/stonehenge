@@ -5,7 +5,7 @@ using System.Linq;
 
 public static class BrickUtility
 {
-    [MenuItem("Tools/Voxels/Align all bricks")]
+    [MenuItem("Tools/Voxels/Align all bricks &a")] // access this command with alt+a
     public static void AlignAllBricks()
     {
         PhysicsBrick[] physicsBricks = Object.FindObjectsOfType<PhysicsBrick>();
@@ -15,7 +15,7 @@ public static class BrickUtility
         }
     }
 
-    [MenuItem("Tools/Voxels/Align selected bricks")]
+    [MenuItem("Tools/Voxels/Align selected bricks &s")] // access this command with alt+s
     public static void AlignSelectedBricks()
     {
         PhysicsBrick[] physicsBricks = Selection.gameObjects.Select(go => go.GetComponent<PhysicsBrick>()).ToArray();

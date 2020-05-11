@@ -61,6 +61,7 @@ public class MoldChecker : MonoBehaviour
             OnMoldMatch?.Invoke(currentRecipe.ingredients.Length);
             audioManager.Play(AudioManager.GlobalSound.Success);
         }
+        print("isMatching -------------------------------------------------" + isMatching);
         return isMatching;
     }
 
@@ -84,6 +85,14 @@ public class MoldChecker : MonoBehaviour
 
     private bool MatchIngredient(RecipeBrick ingredient)
     {
+        if (ingredient.GetVoxels().Length == 0)
+        {
+            Debug.LogError($"Recipe {currentRecipe} is corrupt.");
+            // TODO handle this error in a nice way
+            currentRecipe = FindObjectOfType<Cookbook>().GetNext();
+            return false;
+        }
+
         // check if any of the brick matches the one in the recipe
         foreach (var brick in bricks)
         {
