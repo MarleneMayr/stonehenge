@@ -14,8 +14,8 @@ public class MoldChecker : MonoBehaviour
 
     private void Start()
     {
-        bricks = FindObjectsOfType<PhysicsBrick>();
-        print(bricks.Length + " physicsbricks found in the game.");
+        var brickSpawner = FindObjectOfType<PhysicsBrickSpawner>();
+        brickSpawner.OnSpawnedAllBricks.AddListener((PhysicsBrick[] spawnedBricks) => bricks = spawnedBricks);
     }
 
     public void StartChecking(Recipe recipe, float interval = 1)
@@ -44,8 +44,13 @@ public class MoldChecker : MonoBehaviour
 
     private bool CheckRecipe()
     {
+        if (bricks == null)
+        {
+            Debug.LogWarning("No bricks spawned yet.");
+            return false;
+        }
+
         // important, update the voxel values of all bricks here
-        // TODO extract this into some sort of brick manager that handles all current physicsbricks in the game
         UpdateAllActivePhysicsBricks();
 
         bool isMatching = MatchRecipe(currentRecipe);

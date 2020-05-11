@@ -1,20 +1,20 @@
 ﻿using System;
 using UnityEngine;
 using DG.Tweening;
-using UnityEditor;
 using UnityEngine.Events;
 
 namespace Bricks
 {
     public class PhysicsBrick : MonoBehaviour, IBrick
     {
-        public UnityEvent OnBrickFellDown;
-        public VoxelReference reference;
+        [Serializable] public class PhysicsBrickEvent : UnityEvent<PhysicsBrick> { }
+        public PhysicsBrickEvent OnBrickFellDown;
 
-        [SerializeField] private ID identifier;
-        public ID GetID() { return identifier; }
+        [SerializeField] private int identifier;
+        public int GetID() { return identifier; }
 
         private Voxel[] voxels;
+        public VoxelReference reference;
 
         [SerializeField] private Transform[] anchors;
         private static int anchorsSize = 3;
@@ -32,9 +32,34 @@ namespace Bricks
         {
             if (transform.position.y < -1)
             {
-                // TODO place back on top of playground instead
-                OnBrickFellDown?.Invoke();
+                OnBrickFellDown?.Invoke(this);
             }
+        }
+
+        public void SetReferenceBrick(VoxelReference referenceBrick)
+        {
+            reference = referenceBrick;
+        }
+
+        public void SetID(int id, Color color)
+        {
+            identifier = id;
+
+            /*
+             * An explanation about material problems:
+             * For some reason Unity returns an Array when asking for the renderers materials which creates a copy of the instances.
+             * Unity also addresses Materials like Assets and does not provide regular garbage collection.
+             * The <Renderer>().materials array returns an array of per-object materials,
+             * while .sharedMaterials gives you the possibility of editing materials on all instances.
+             * If you want to make changes to a specific material you have to reassign the whole array after modification.
+             * .material and .sharedMaterial, however, retrieve only the first loaded and active material.
+             * Therefore, changing a value on .materials[0] without reassignment causes an error with duplicated materials and leaking,
+             * while .material does the same thing without and error.
+             * More information here: https://docs.unity3d.com/ScriptReference/Renderer-materials.html
+             * and here: https://answers.unity.com/questions/192561/renderermaterials-leaking-materials.html
+            */
+            var mat = GetComponent<Renderer>().material;
+            mat.SetColor("_Color", color);
         }
 
         void OnDrawGizmosSelected()

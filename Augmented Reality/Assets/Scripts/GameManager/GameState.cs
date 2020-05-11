@@ -35,10 +35,6 @@ public class GameState : State
         countdownMenu.StartCountdown(StartGame);
         gameMenu.SetTimerWarning(false);
         audioManager.PlayOnce(AudioManager.GlobalSound.Countdown);
-
-        moldChecker.StartChecking(cookbook.GetNext());
-        moldChecker.OnMoldMatch.AddListener(NextRecipe);
-        moldChecker.OnMoldMatch.AddListener(UpdateScore);
     }
 
     public override void BeforeDeactivate()
@@ -72,6 +68,10 @@ public class GameState : State
 
         selectionManager.Activate();
         gameMenu.ScreenTapped.AddListener(selectionManager.HandleTap);
+
+        moldChecker.StartChecking(cookbook.GetNext());
+        moldChecker.OnMoldMatch.AddListener(NextRecipe);
+        moldChecker.OnMoldMatch.AddListener(UpdateScore);
     }
 
     private void NextRecipe(int ingredientCount)

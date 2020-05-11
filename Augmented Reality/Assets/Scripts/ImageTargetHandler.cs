@@ -35,7 +35,6 @@ public class ImageTargetHandler : MonoBehaviour, ITrackableEventHandler
         }
         else
         {
-            // TODO place playground somewhere else
             // target is lost
             OnTrackerLost.Invoke();
             joint.connectedBody = null;
