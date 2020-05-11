@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: recipe
   m_EditorClassIdentifier: 
   ingredients:
+  - identifier: 0
+    voxels: []
   - identifier: 2
     voxels: []
-  - identifier: 0
+  - identifier: 1
     voxels: []

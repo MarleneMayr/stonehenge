@@ -20,7 +20,7 @@ public class RecipeEditor : Editor
         {
             using (new EditorGUI.IndentLevelScope())
             {
-                EditorGUILayout.LabelField("Color:", brick.GetID().ToString());
+                EditorGUILayout.LabelField("ID:", brick.GetID().ToString());
 
                 var ranges = GetRanges(brick.GetVoxels());
                 EditorGUIUtility.labelWidth = 30;
