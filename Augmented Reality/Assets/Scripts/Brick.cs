@@ -2,16 +2,7 @@
 {
     public interface IBrick
     {
-        ID GetID();
+        int GetID();
         Voxel[] GetVoxels();
-    }
-
-    public enum ID
-    {
-        red,
-        blue,
-        yellow,
-        green,
-        white
     }
 }
