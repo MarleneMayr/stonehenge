@@ -12,7 +12,6 @@ public class HighscoreMenu : Menu
     public Color green;
     public Color red;
 
-    [Space]
     [Header("UI Objects")]
     public TMP_Text scoreTxt;
     public GameObject onlinePanel;
@@ -31,9 +30,13 @@ public class HighscoreMenu : Menu
     public GameObject ownHighscorePanel;
     public HighscoreUI highscorePrefab;
 
+
+    [System.Serializable]
+    public class StringEvent : UnityEvent<string> { }
+
     [Space]
     [Header("Events")]
-    public UnityEvent<string> OnSubmitName;
+    public StringEvent OnSubmitName;
     public UnityEvent OnPlayAgainPressed;
 
     public void SubmitName()
@@ -134,7 +137,8 @@ public class HighscoreMenu : Menu
         else
         {
             nameInput.text = string.Empty;
-            nameInput.placeholder.GetComponent<Text>().text = "Name...";
+            var placeholder = nameInput.placeholder;
+            placeholder.GetComponent<TextMeshProUGUI>().text = "Name...";
         }
     }
 

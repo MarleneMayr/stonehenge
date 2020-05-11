@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IUpgradedAndGotSSL: 0
-  privateCode: 
-  publicCode: 
+  privateCode: Cesi_x6sE0WEBTkKNyRROwJ1Q-tn4kW0yB4RRz-zZeBg
+  publicCode: 5eb8573c0cf2aa0c281331d7
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 0

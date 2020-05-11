@@ -3,12 +3,9 @@ using System.Collections.Generic;
 
 public class Highscore : MonoBehaviour
 {
-
-    public int totalScore = 0;
+    public int gameScore = 0;
     public string playerName = "";
-    public string code = "";
 
-    // Reference to the dreamloLeaderboard prefab in the scene	
     dreamloLeaderBoard dreamlo;
 
     void Start()
@@ -21,24 +18,20 @@ public class Highscore : MonoBehaviour
         if (dreamlo.publicCode == "") Debug.LogError("Dreamlo: publicCode missing");
         if (dreamlo.privateCode == "") Debug.LogError("Dreamlo: privateCode missing");
 
-        dreamlo.AddScore(playerName, totalScore);
+        dreamlo.AddScore(playerName, gameScore);
     }
 
     public List<dreamloLeaderBoard.Score> GetTopFive()
     {
         List<dreamloLeaderBoard.Score> highscore = dreamlo.ToListHighToLow();
-        return highscore?.GetRange(0, 5);
-
-        //foreach (dreamloLeaderBoard.Score currentScore in top5)
-        //{
-        //    // display score
-        //}
+        Debug.Log("Highscore length: " + highscore.Count);
+        return highscore?.GetRange(0, Mathf.Min(5, highscore.Count));
     }
 
     public dreamloLeaderBoard.Score GetCurrentRanking()
     {
         List<dreamloLeaderBoard.Score> highscore = dreamlo.ToListHighToLow();
-        return highscore.Find(score => score.playerName == playerName && score.score == totalScore);
+        return highscore.Find(score => score.playerName == playerName && score.score == gameScore);
     }
 
     public dreamloLeaderBoard.Score GetPersonalBest()

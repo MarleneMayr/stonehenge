@@ -7,18 +7,33 @@ public class StateMachine : MonoBehaviour
 
     public void GoTo<T>() where T : State
     {
-        currentState?.Deactivate();
-        currentState = FindObjectOfType<T>();
-        Debug.Log("Transition to " + currentState.GetType().ToString());
-        currentState.Activate();
+        State nextState = FindObjectOfType<T>();
+        if (currentState != nextState)
+        {
+            currentState?.Deactivate();
+            currentState = nextState;
+            Debug.Log("Transition to " + currentState.GetType().ToString());
+            currentState.Activate();
+        }
+        else
+        {
+            Debug.LogWarning("Cannot go to already active state");
+        }
     }
 
     public void GoTo(State nextState)
     {
-        currentState?.Deactivate();
-        currentState = nextState;
-        Debug.Log("Transition to " + currentState.GetType().ToString());
-        currentState.Activate();
+        if (currentState != nextState)
+        {
+            currentState?.Deactivate();
+            currentState = nextState;
+            Debug.Log("Transition to " + currentState.GetType().ToString());
+            currentState.Activate();
+        }
+        else
+        {
+            Debug.LogWarning("Cannot go to already active state");
+        }
     }
 
     private void Start()

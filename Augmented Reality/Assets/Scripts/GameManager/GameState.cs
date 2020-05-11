@@ -8,6 +8,7 @@ public class GameState : State
     [SerializeField] private MoldChecker moldChecker;
     [SerializeField] private Cookbook cookbook;
     [SerializeField] private GameObject playground;
+    [SerializeField] private Highscore highscore;
 
     [SerializeField] private CountdownMenu countdownMenu;
     [SerializeField] private GameMenu gameMenu;
@@ -18,7 +19,6 @@ public class GameState : State
     private Timer timer;
     private SelectionManager selectionManager;
     private AudioManager audioManager;
-    private int score = 0;
 
     protected override void Awake()
     {
@@ -30,7 +30,7 @@ public class GameState : State
 
     public override void AfterActivate()
     {
-        score = 0;
+        highscore.gameScore = 0;
 
         countdownMenu.StartCountdown(StartGame);
         gameMenu.SetTimerWarning(false);
@@ -131,8 +131,8 @@ public class GameState : State
 
     private void UpdateScore(int ingredientCount)
     {
-        score += ingredientCount * 100;
-        gameMenu.SetScoreTxt(score);
+        highscore.gameScore += ingredientCount * 100;
+        gameMenu.SetScoreTxt(highscore.gameScore);
     }
 
     private void EndGame()

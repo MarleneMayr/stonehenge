@@ -5,7 +5,7 @@ using UnityEngine;
 public class MenuState : State
 {
     private MainMenu mainMenu;
-    AudioManager audioManager;
+    private AudioManager audioManager;
 
     protected override void Awake()
     {
