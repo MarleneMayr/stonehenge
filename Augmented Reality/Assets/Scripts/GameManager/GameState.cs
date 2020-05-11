@@ -7,6 +7,7 @@ public class GameState : State
 {
     [SerializeField] private MoldChecker moldChecker;
     [SerializeField] private Cookbook cookbook;
+    [SerializeField] private RecipeVisualizer visualizer;
     [SerializeField] private GameObject playground;
 
     [SerializeField] private CountdownMenu countdownMenu;
@@ -69,7 +70,9 @@ public class GameState : State
         selectionManager.Activate();
         gameMenu.ScreenTapped.AddListener(selectionManager.HandleTap);
 
-        moldChecker.StartChecking(cookbook.GetNext());
+        Recipe next = cookbook.GetNext();
+        visualizer.ShowRecipe(next);
+        moldChecker.StartChecking(next);
         moldChecker.OnMoldMatch.AddListener(NextRecipe);
         moldChecker.OnMoldMatch.AddListener(UpdateScore);
     }
@@ -80,6 +83,7 @@ public class GameState : State
         UpdateTime(newTime);
 
         Recipe next = cookbook.GetNext();
+        visualizer.ShowRecipe(next);
         moldChecker.StartChecking(next);
         print("start next recipe");
     }
