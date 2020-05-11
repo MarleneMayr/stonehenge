@@ -28,18 +28,14 @@ public class GameState : State
 
     public override void AfterActivate()
     {
-        // TODO this method gets only called once now
-        // => double check which parts go here, which ones in InitializeGame()
+        score = 0;
 
-        if (!timer.isRunning && !countdownMenu.isRunning)
-        {
-            InitializeGame();
-        }
-
+        countdownMenu.StartCountdown(StartGame);
         gameMenu.SetTimerWarning(false);
 
-        selectionManager.Activate();
-        gameMenu.ScreenTapped.AddListener(selectionManager.HandleTap);
+        moldChecker.StartChecking(cookbook.GetNext());
+        moldChecker.OnMoldMatch.AddListener(NextRecipe);
+        moldChecker.OnMoldMatch.AddListener(UpdateScore);
     }
 
     public override void BeforeDeactivate()
@@ -58,21 +54,15 @@ public class GameState : State
         selectionManager.Deactivate();
     }
 
-    private void InitializeGame()
-    {
-        score = 0;
-        countdownMenu.StartCountdown(StartGame);
-        moldChecker.StartChecking(cookbook.GetNext());
-
-        moldChecker.OnMoldMatch.AddListener(NextRecipe);
-        moldChecker.OnMoldMatch.AddListener(UpdateScore);
-    }
-
     private void StartGame()
     {
         gameMenu.Show();
+
         timer.StartTimer(15, EndGame);
         timer.OnTimerTick.AddListener(UpdateTime);
+
+        selectionManager.Activate();
+        gameMenu.ScreenTapped.AddListener(selectionManager.HandleTap);
     }
 
     private void NextRecipe(int ingredientCount)
