@@ -30,7 +30,7 @@ public class SaveAsRecipe
         for (int i = 0; i < physicsBricks.Length; i++)
         {
             PhysicsBrick pBrick = physicsBricks[i];
-            VoxelUtility.AlignBrick(pBrick);
+            BrickUtility.AlignBrick(pBrick);
             RecipeBrick brick = new RecipeBrick(pBrick.GetID(), pBrick.GetVoxels());
 
             recipeBricks[i] = brick;

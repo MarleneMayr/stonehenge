@@ -1,19 +1,23 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using Bricks;
 
 public class MoldChecker : MonoBehaviour
 {
-    public UnityEvent OnMoldMatch;
+    [Serializable] public class MoldEvent : UnityEvent<int> { }
+    public MoldEvent OnMoldMatch;
 
     private PhysicsBrick[] bricks;
     private Recipe currentRecipe;
+    private AudioManager audioManager;
 
     private void Start()
     {
-        bricks = FindObjectsOfType<PhysicsBrick>();
-        print(bricks.Length + " physicsbricks found in the game.");
+        var brickSpawner = FindObjectOfType<PhysicsBrickSpawner>();
+        brickSpawner.OnSpawnedAllBricks.AddListener((PhysicsBrick[] spawnedBricks) => bricks = spawnedBricks);
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     public void StartChecking(Recipe recipe, float interval = 1)
@@ -42,12 +46,21 @@ public class MoldChecker : MonoBehaviour
 
     private bool CheckRecipe()
     {
+        if (bricks == null)
+        {
+            Debug.LogWarning("No bricks spawned yet.");
+            return false;
+        }
+
         // important, update the voxel values of all bricks here
-        // TODO extract this into some sort of brick manager that handles all current physicsbricks in the game
         UpdateAllActivePhysicsBricks();
 
         bool isMatching = MatchRecipe(currentRecipe);
-        if (isMatching) OnMoldMatch.Invoke();
+        if (isMatching)
+        {
+            OnMoldMatch?.Invoke(currentRecipe.ingredients.Length);
+            audioManager.Play(AudioManager.GlobalSound.Success);
+        }
         return isMatching;
     }
 

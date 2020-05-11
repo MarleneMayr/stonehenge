@@ -29,7 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2087338780450250777}
-  - {fileID: 6061614699419079928}
+  - {fileID: 2267566528994016184}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -45,6 +45,66 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df9038a19ec71844d9480259f6e9aca5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnMoldMatch:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!1 &5760530671617041688
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2267566528994016184}
+  - component: {fileID: 5117248439954699250}
+  m_Layer: 0
+  m_Name: Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2267566528994016184
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5760530671617041688}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.5, y: 0, z: 6.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1159989135750390236}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5117248439954699250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5760530671617041688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0ca21eb2ffec604d87a2961e0c3ecc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brickPrefab: {fileID: 7133581595838951646, guid: 5343b645a9bf682488a290803f84543a,
+    type: 3}
+  referenceBrickPrefab: {fileID: 9119218649562999305, guid: 52c549afa246eab46bf501e1c237913a,
+    type: 3}
+  brickAmount: 6
+  spacing: 0.5
+  orientation: {x: 0, y: 0, z: 1}
+  colors:
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0.9479667, b: 0, a: 1}
+  - {r: 0, g: 1, b: 0.092865944, a: 1}
+  - {r: 0.04401779, g: 0, b: 1, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0.49056602, g: 0.27004838, b: 0.08098966, a: 1}
 --- !u!1 &7206957496596462611
 GameObject:
   m_ObjectHideFlags: 0
@@ -126,43 +186,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1001 &4633867736791286252
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1159989135750390236}
-    m_Modifications:
-    - target: {fileID: 1464198004444468489, guid: 5343b645a9bf682488a290803f84543a,
-        type: 3}
-      propertyPath: m_Name
-      value: Brick
-      objectReference: {fileID: 0}
-    - target: {fileID: 1464198004444468500, guid: 5343b645a9bf682488a290803f84543a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1464198004444468500, guid: 5343b645a9bf682488a290803f84543a,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.67
-      objectReference: {fileID: 0}
-    - target: {fileID: 1464198004444468500, guid: 5343b645a9bf682488a290803f84543a,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.76
-      objectReference: {fileID: 0}
-    - target: {fileID: 1464198004444468500, guid: 5343b645a9bf682488a290803f84543a,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1.08
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 5343b645a9bf682488a290803f84543a, type: 3}
---- !u!4 &6061614699419079928 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1464198004444468500, guid: 5343b645a9bf682488a290803f84543a,
-    type: 3}
-  m_PrefabInstance: {fileID: 4633867736791286252}
-  m_PrefabAsset: {fileID: 0}

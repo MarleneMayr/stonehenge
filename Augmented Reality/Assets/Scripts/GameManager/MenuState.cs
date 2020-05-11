@@ -5,11 +5,13 @@ using UnityEngine;
 public class MenuState : State
 {
     private MainMenu mainMenu;
+    AudioManager audioManager;
 
     protected override void Awake()
     {
         base.Awake();
         mainMenu = (MainMenu)menu;
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     public override void AfterActivate()
@@ -20,6 +22,7 @@ public class MenuState : State
     public override void BeforeDeactivate()
     {
         mainMenu.OnStartClicked.RemoveListener(StartGame);
+        audioManager.Stop(AudioManager.GlobalSound.BirdsLoop);
     }
 
     public override void OnTrackerLost()
@@ -29,6 +32,7 @@ public class MenuState : State
 
     private void StartGame()
     {
+        audioManager.Play(AudioManager.GlobalSound.Click);
         stateMachine.GoTo<GameState>();
     }
 }

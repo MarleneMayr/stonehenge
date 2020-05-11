@@ -19,6 +19,8 @@ public class SelectionManager : MonoBehaviour
 
     public void Deactivate()
     {
+        DetachGameObject();
+        ClearSelection();
         isActive = false;
     }
 
@@ -60,6 +62,7 @@ public class SelectionManager : MonoBehaviour
                 }
                 else if (hit.transform.CompareTag("Selectable"))
                 {
+                    ClearSelection();
                     SelectObject(hit.transform.gameObject);
                 }
                 else
@@ -71,7 +74,7 @@ public class SelectionManager : MonoBehaviour
             {
                 ClearSelection();
             }
-        }  
+        }
     }
 
     private void SelectObject(GameObject obj)
@@ -95,7 +98,7 @@ public class SelectionManager : MonoBehaviour
     {
         attachedObject = hoveredObject;
         var rb = attachedObject.GetComponent<Rigidbody>();
-        
+
         if (mode == Mode.Joint)
         {
             joint.connectedBody = rb;
@@ -106,11 +109,12 @@ public class SelectionManager : MonoBehaviour
         {
             attachedObject.transform.parent = Camera.main.transform;
             rb.isKinematic = true;
-        }        
+        }
     }
 
     public void DetachGameObject()
     {
+        if (attachedObject == null) return;
         var rb = attachedObject.GetComponent<Rigidbody>();
 
         if (mode == Mode.Joint)
@@ -121,11 +125,12 @@ public class SelectionManager : MonoBehaviour
         }
         else if (mode == Mode.Kinematic)
         {
-            attachedObject.transform.parent = FindObjectOfType<MoldChecker>().transform;
+            attachedObject.transform.SetParent(FindObjectOfType<PhysicsBrickSpawner>().transform);
             rb.isKinematic = false;
         }
 
-        
+        var brick = attachedObject.GetComponent<Bricks.PhysicsBrick>();
+        brick?.SnapToVoxels();
 
         attachedObject = null;
     }
