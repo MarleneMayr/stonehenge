@@ -32,6 +32,7 @@ public class MenuState : State
 
     private void StartGame()
     {
+        audioManager.Play(AudioManager.GlobalSound.Click);
         stateMachine.GoTo<GameState>();
     }
 }

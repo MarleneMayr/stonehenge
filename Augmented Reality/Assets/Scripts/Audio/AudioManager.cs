@@ -8,8 +8,12 @@ public class AudioManager : MonoBehaviour
     {
         Click,
         BirdsLoop,
+        Countdown,
         TickingLoop,
-        Last10Seconds
+        Last10Seconds,
+        Success,
+        Spawn,
+        GameOver
     }
 
     [SerializeField] private Sound[] GlobalSounds;
@@ -26,7 +30,7 @@ public class AudioManager : MonoBehaviour
     public void Play(GlobalSound name)
     {
         Sound s = FindSound(name);
-        s.source.Play();
+        s?.source.Play();
     }
 
     public void PlayOnce(GlobalSound name)
@@ -45,7 +49,7 @@ public class AudioManager : MonoBehaviour
         s?.source.Stop();
     }
 
-    public void Pause(GlobalSound name)
+    public void PauseIfPlaying(GlobalSound name)
     {
         Sound s = FindSound(name);
 
@@ -96,7 +100,7 @@ public class AudioManager : MonoBehaviour
         Sound s = System.Array.Find(GlobalSounds, sound => sound.name == name);
         if (s == null)
         {
-            Debug.LogWarning("Sound " + name + " not found in GlobalSounds Array!");
+            Debug.LogWarning("Sound '" + name + "' does not exist in GlobalSounds Array!");
             return null;
         }
         return s;

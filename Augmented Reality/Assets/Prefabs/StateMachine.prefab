@@ -1,50 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &243150083027970444
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7200398370840884836}
-  - component: {fileID: 263584154702413059}
-  m_Layer: 0
-  m_Name: PausedState
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7200398370840884836
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 243150083027970444}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 5677107298845248873}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &263584154702413059
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 243150083027970444}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18bc833af7c1f454a9843a0f9f9590fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  menu: {fileID: 0}
-  playground: {fileID: 0}
 --- !u!1 &4012840758894341590
 GameObject:
   m_ObjectHideFlags: 0
@@ -74,7 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5677107298845248873}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8978795069692608378
 MonoBehaviour:
@@ -91,7 +46,7 @@ MonoBehaviour:
   GlobalSounds:
   - name: 0
     clip: {fileID: 8300000, guid: 98394926e8c9dc04f8b908f13118be2c, type: 3}
-    volume: 1
+    volume: 0.8
     pitch: 1
     loop: 0
     source: {fileID: 0}
@@ -102,13 +57,37 @@ MonoBehaviour:
     loop: 1
     source: {fileID: 0}
   - name: 2
+    clip: {fileID: 8300000, guid: a97efaf3f1c749f4cb63b0b9b1f54911, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: 3
     clip: {fileID: 8300000, guid: 1535a0c179cad2544a366a84e659e08b, type: 3}
     volume: 1
     pitch: 1
     loop: 1
     source: {fileID: 0}
-  - name: 3
+  - name: 4
     clip: {fileID: 8300000, guid: cd396954666427343b0102e52f9f1ae2, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: 5
+    clip: {fileID: 8300000, guid: cd5b33d8fa9b3c042afe1a27c45b5e79, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: 6
+    clip: {fileID: 8300000, guid: cd396954666427343b0102e52f9f1ae2, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: 7
+    clip: {fileID: 8300000, guid: 404fcadeb9b1aee4e862551956c5e3b1, type: 3}
     volume: 1
     pitch: 1
     loop: 0
@@ -207,6 +186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menu: {fileID: 0}
+  playground: {fileID: 0}
 --- !u!1 &5677107297312951457
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,6 +237,7 @@ MonoBehaviour:
   countdownMenu: {fileID: 0}
   gameMenu: {fileID: 0}
   pausedMenu: {fileID: 0}
+  keepSelectionOnPause: 0
 --- !u!1 &5677107297395081016
 GameObject:
   m_ObjectHideFlags: 0
