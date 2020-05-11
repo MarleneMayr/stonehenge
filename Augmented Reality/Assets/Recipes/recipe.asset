@@ -20,6 +20,6 @@ MonoBehaviour:
     - coordinates: {x: 0, y: 0, z: 1}
   - identifier: 1
     voxels:
-    - coordinates: {x: 0, y: 0, z: 2}
-    - coordinates: {x: 0, y: 0, z: 3}
-    - coordinates: {x: 0, y: 0, z: 4}
+    - coordinates: {x: -1, y: 0, z: 0}
+    - coordinates: {x: -1, y: 0, z: 1}
+    - coordinates: {x: -1, y: 0, z: 2}

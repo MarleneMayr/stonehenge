@@ -32,10 +32,16 @@ public class GameState : State
     public override void AfterActivate()
     {
         score = 0;
-
         countdownMenu.StartCountdown(StartGame);
         gameMenu.SetTimerWarning(false);
         audioManager.PlayOnce(AudioManager.GlobalSound.Countdown);
+
+        Recipe next = cookbook.GetNext();
+        visualizer.ShowRecipe(next);
+
+        moldChecker.StartChecking(next);
+        moldChecker.OnMoldMatch.AddListener(NextRecipe);
+        moldChecker.OnMoldMatch.AddListener(UpdateScore);
     }
 
     public override void BeforeDeactivate()
@@ -63,18 +69,12 @@ public class GameState : State
     {
         gameMenu.Show();
 
-        timer.StartTimer(15, EndGame);
+        timer.StartTimer(60, EndGame);
         timer.OnTimerTick.AddListener(UpdateTime);
         audioManager.PlayOnce(AudioManager.GlobalSound.TickingLoop);
 
         selectionManager.Activate();
         gameMenu.ScreenTapped.AddListener(selectionManager.HandleTap);
-
-        Recipe next = cookbook.GetNext();
-        visualizer.ShowRecipe(next);
-        moldChecker.StartChecking(next);
-        moldChecker.OnMoldMatch.AddListener(NextRecipe);
-        moldChecker.OnMoldMatch.AddListener(UpdateScore);
     }
 
     private void NextRecipe(int ingredientCount)

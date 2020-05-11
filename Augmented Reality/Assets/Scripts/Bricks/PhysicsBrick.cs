@@ -132,7 +132,7 @@ namespace Bricks
             transform.DOMove(v.getCenter(), 0.2f);
 
             Vector3 majorAxis = GetMajorAxis();
-            transform.DOLookAt(transform.position + majorAxis, 0.2f);
+            transform.DOLookAt(majorAxis, 0.2f); // transform.position + 
         }
 
         public Vector3 GetMajorAxis()

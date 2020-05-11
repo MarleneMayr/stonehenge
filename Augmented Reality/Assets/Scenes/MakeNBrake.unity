@@ -1461,11 +1461,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: 3d_UI
       objectReference: {fileID: 0}
-    - target: {fileID: 4502475257134415208, guid: ab4e4ba6d357c534390faa981b2536c6,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4502475257134415209, guid: ab4e4ba6d357c534390faa981b2536c6,
         type: 3}
       propertyPath: m_LocalPosition.x
