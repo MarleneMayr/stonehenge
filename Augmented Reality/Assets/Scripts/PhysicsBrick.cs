@@ -14,7 +14,7 @@ namespace Bricks
         public int GetID() { return identifier; }
 
         private Voxel[] voxels;
-        private VoxelReference reference;
+        public VoxelReference reference;
 
         [SerializeField] private Transform[] anchors;
         private static int anchorsSize = 3;
