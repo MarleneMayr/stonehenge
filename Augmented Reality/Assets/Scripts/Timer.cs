@@ -2,32 +2,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Timer : MonoBehaviour
 {
-    public float Duration;
-    public float TimeLeft;
+    public int Duration;
+    public int TimeLeft;
     public bool isRunning = false;
 
-    public void StartTimer(float duration, Action<string> printTime, Action onCompleted)
+    [Serializable] public class TimerEvent : UnityEvent<int> { }
+    public TimerEvent OnTimerTick;
+
+    public void StartTimer(int duration, Action onCompleted)
     {
         Duration = duration;
         TimeLeft = duration;
-        StartCoroutine(RunTimer(printTime, onCompleted));
+        StartCoroutine(RunTimer(onCompleted));
     }
 
-    public void AddToTimer(float duration)
+    public int AddToTimer(int duration)
     {
         Duration += duration;
         TimeLeft += duration;
+        return TimeLeft;
     }
 
-    private IEnumerator RunTimer(Action<string> printTime, Action onCompleted)
+    private IEnumerator RunTimer(Action onCompleted)
     {
         isRunning = true;
         while (TimeLeft > 0)
         {
-            printTime($"{TimeLeft}");
+            OnTimerTick?.Invoke(TimeLeft);
             yield return new WaitForSeconds(1);
             TimeLeft--;
         }
