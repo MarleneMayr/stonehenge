@@ -19,6 +19,8 @@ public class SelectionManager : MonoBehaviour
 
     public void Deactivate()
     {
+        DetachGameObject();
+        ClearSelection();
         isActive = false;
     }
 
@@ -111,6 +113,7 @@ public class SelectionManager : MonoBehaviour
 
     public void DetachGameObject()
     {
+        if (attachedObject == null) return;
         var rb = attachedObject.GetComponent<Rigidbody>();
 
         if (mode == Mode.Joint)
@@ -124,8 +127,6 @@ public class SelectionManager : MonoBehaviour
             attachedObject.transform.parent = FindObjectOfType<MoldChecker>().transform;
             rb.isKinematic = false;
         }
-
-        
 
         attachedObject = null;
     }

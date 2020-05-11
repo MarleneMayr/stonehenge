@@ -1725,6 +1725,11 @@ PrefabInstance:
       propertyPath: menu
       value: 
       objectReference: {fileID: 7278551532412069666}
+    - target: {fileID: 5677107297303619212, guid: 6fa2a33893ae0604eae329c029344cec,
+        type: 3}
+      propertyPath: playground
+      value: 
+      objectReference: {fileID: 476749129}
     - target: {fileID: 5677107297312951459, guid: 6fa2a33893ae0604eae329c029344cec,
         type: 3}
       propertyPath: gameMenu
@@ -1749,12 +1754,22 @@ PrefabInstance:
         type: 3}
       propertyPath: menu
       value: 
-      objectReference: {fileID: 7278551532412069668}
+      objectReference: {fileID: 0}
     - target: {fileID: 5677107297312951459, guid: 6fa2a33893ae0604eae329c029344cec,
         type: 3}
       propertyPath: countdownMenu
       value: 
       objectReference: {fileID: 1027174241}
+    - target: {fileID: 5677107297312951459, guid: 6fa2a33893ae0604eae329c029344cec,
+        type: 3}
+      propertyPath: pausedMenu
+      value: 
+      objectReference: {fileID: 1239710444}
+    - target: {fileID: 5677107297312951459, guid: 6fa2a33893ae0604eae329c029344cec,
+        type: 3}
+      propertyPath: keepSelectionOnPause
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5677107297395081018, guid: 6fa2a33893ae0604eae329c029344cec,
         type: 3}
       propertyPath: mainMenu

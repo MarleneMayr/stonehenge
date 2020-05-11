@@ -7,9 +7,14 @@ public class GameState : State
 {
     [SerializeField] private MoldChecker moldChecker;
     [SerializeField] private Cookbook cookbook;
-    [SerializeField] private CountdownMenu countdownMenu;
+    [SerializeField] private GameObject playground;
 
-    private GameMenu gameMenu;
+    [SerializeField] private CountdownMenu countdownMenu;
+    [SerializeField] private GameMenu gameMenu;
+    [SerializeField] private SingleMessageMenu pausedMenu;
+
+    [SerializeField] private bool keepSelectionOnPause;
+
     private Timer timer;
     private SelectionManager selectionManager;
     private int score = 0;
@@ -17,31 +22,32 @@ public class GameState : State
     protected override void Awake()
     {
         base.Awake();
-        gameMenu = (GameMenu)menu;
         timer = FindObjectOfType<Timer>();
         selectionManager = FindObjectOfType<SelectionManager>();
     }
 
     public override void AfterActivate()
     {
-        Debug.Log("Gamestate activated");
+        // TODO this method gets only called once now
+        // => double check which parts go here, which ones in InitializeGame()
+
         if (!timer.isRunning && !countdownMenu.isRunning)
         {
             InitializeGame();
         }
-        //else if ( countdownMenu.isRunning)
-        //{
-        //    countdownMenu.Show();
-        //}
 
         gameMenu.SetTimerWarning(false);
+
         selectionManager.Activate();
         gameMenu.ScreenTapped.AddListener(selectionManager.HandleTap);
     }
 
     public override void BeforeDeactivate()
     {
-        countdownMenu.Hide(0);
+        countdownMenu.Hide();
+        gameMenu.Hide();
+        pausedMenu.Hide();
+
         moldChecker.StopChecking();
 
         timer.OnTimerTick.RemoveListener(UpdateTime);
@@ -55,7 +61,6 @@ public class GameState : State
     private void InitializeGame()
     {
         score = 0;
-        gameMenu.Hide(0); // hide immediately to show only countdown
         countdownMenu.StartCountdown(StartGame);
         moldChecker.StartChecking(cookbook.GetNext());
 
@@ -82,7 +87,39 @@ public class GameState : State
 
     public override void OnTrackerLost()
     {
-        stateMachine.GoTo<PausedState>();
+        Pause();
+    }
+
+    public override void OnTrackerFound()
+    {
+        Unpause();
+    }
+
+    public void Pause()
+    {
+        gameMenu.Hide(0);
+        countdownMenu.Hide(0);
+        pausedMenu.Show(0);
+
+        if (!keepSelectionOnPause) selectionManager.Deactivate();
+
+        playground.SetActive(false);
+        Time.timeScale = 0f;
+
+        // TODO pause timer audio
+    }
+
+    public void Unpause()
+    {
+        playground.SetActive(true);
+        Time.timeScale = 1f;
+
+        pausedMenu.Hide(0);
+
+        if (!countdownMenu.isRunning) gameMenu.Show();
+        if (!keepSelectionOnPause) selectionManager.Activate();
+
+        // TODO pause timer audio
     }
 
     private void UpdateTime(int time)
@@ -99,6 +136,10 @@ public class GameState : State
 
     private void EndGame()
     {
+        // TODO play sound
+        // TODO drop brick if still one is selected
+        // TODO maybe deactivate playgroun? => check how it looks with playground on
+        // TODO actually the above 3 things could be done in deactivate now
         stateMachine.GoTo<HighscoreState>();
     }
 }

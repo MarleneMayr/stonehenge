@@ -45,6 +45,6 @@ public class CountdownMenu : Menu
         onComplete();
         isRunning = false;
 
-        Hide(3 * speed);
+        Hide(speed);
     }
 }
