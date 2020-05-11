@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Score : MonoBehaviour
+public class Highscore : MonoBehaviour
 {
 
     public int totalScore = 0;

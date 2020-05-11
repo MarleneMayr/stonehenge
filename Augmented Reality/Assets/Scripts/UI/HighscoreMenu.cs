@@ -55,7 +55,7 @@ public class HighscoreMenu : Menu
         scoreTxt.SetText(score.ToString());
     }
 
-    public void ShowOnlineHighscores(List<Score> scores, Score currentScore, Score previousScore)
+    public void ShowOnlineHighscores(List<dreamloLeaderBoard.Score> scores, dreamloLeaderBoard.Score currentScore, dreamloLeaderBoard.Score previousScore)
     {
         enterNamePanel.SetActive(false);
         onlinePanel.SetActive(true);
@@ -97,7 +97,7 @@ public class HighscoreMenu : Menu
         }
     }
 
-    private void ShowPreviousHighscore(Score previousScore, int currentScore)
+    private void ShowPreviousHighscore(dreamloLeaderBoard.Score previousScore, int currentScore)
     {
         previousHighscorePanel.SetActive(true);
 
@@ -142,15 +142,4 @@ public class HighscoreMenu : Menu
     {
         OnPlayAgainPressed?.Invoke();
     }
-}
-
-// TODO delete temporary struct
-public struct Score
-{
-    public string playerName;
-    public int score;
-    public int seconds;
-    public int id;
-    public string shortText;
-    public string dateString;
 }
