@@ -1,11 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using Bricks;
 
 public class MoldChecker : MonoBehaviour
 {
-    public UnityEvent<int> OnMoldMatch;
+    [Serializable] public class MoldEvent : UnityEvent<int> { }
+    public MoldEvent OnMoldMatch;
 
     private PhysicsBrick[] bricks;
     private Recipe currentRecipe;
@@ -47,7 +49,7 @@ public class MoldChecker : MonoBehaviour
         UpdateAllActivePhysicsBricks();
 
         bool isMatching = MatchRecipe(currentRecipe);
-        if (isMatching) OnMoldMatch.Invoke(currentRecipe.ingredients.Length);
+        if (isMatching) OnMoldMatch?.Invoke(currentRecipe.ingredients.Length);
         return isMatching;
     }
 

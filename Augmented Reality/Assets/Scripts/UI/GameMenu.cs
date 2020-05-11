@@ -18,6 +18,7 @@ public class GameMenu : Menu
     public void Tap()
     {
         ScreenTapped?.Invoke();
+        Debug.Log("Tapped");
     }
 
     public void SetScoreTxt(int score)

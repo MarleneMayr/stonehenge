@@ -10,7 +10,8 @@ public class Timer : MonoBehaviour
     public int TimeLeft;
     public bool isRunning = false;
 
-    public UnityEvent<int> OnTimerTick;
+    [Serializable] public class TimerEvent : UnityEvent<int> { }
+    public TimerEvent OnTimerTick;
 
     public void StartTimer(int duration, Action onCompleted)
     {

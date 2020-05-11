@@ -29,6 +29,10 @@ public class GameState : State
         {
             InitializeGame();
         }
+        //else if ( countdownMenu.isRunning)
+        //{
+        //    countdownMenu.Show();
+        //}
 
         gameMenu.SetTimerWarning(false);
         selectionManager.Activate();
@@ -37,7 +41,7 @@ public class GameState : State
 
     public override void BeforeDeactivate()
     {
-        gameMenu.Hide();
+        countdownMenu.Hide(0);
         moldChecker.StopChecking();
 
         timer.OnTimerTick.RemoveListener(UpdateTime);
