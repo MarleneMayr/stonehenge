@@ -929,6 +929,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   trackerLost: 0
+--- !u!114 &1748998876 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5117248439954699250, guid: d4b9f196fb7f6f04892ced9242d1fbc8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1159989136713489774}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0ca21eb2ffec604d87a2961e0c3ecc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1913685776
 Mesh:
   m_ObjectHideFlags: 0
@@ -1716,6 +1728,11 @@ PrefabInstance:
       propertyPath: floor
       value: 
       objectReference: {fileID: 1953637642}
+    - target: {fileID: 5677107297312951459, guid: 6fa2a33893ae0604eae329c029344cec,
+        type: 3}
+      propertyPath: spawner
+      value: 
+      objectReference: {fileID: 1748998876}
     - target: {fileID: 5677107297395081018, guid: 6fa2a33893ae0604eae329c029344cec,
         type: 3}
       propertyPath: mainMenu
