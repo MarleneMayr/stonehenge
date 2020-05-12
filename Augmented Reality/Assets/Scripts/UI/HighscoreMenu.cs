@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -8,9 +7,7 @@ using UnityEngine.UI;
 public class HighscoreMenu : Menu
 {
     [Header("Colors")]
-    public Color yellow;
-    public Color green;
-    public Color red;
+    public ColorPaletteUI colors;
 
     [Space]
     [Header("UI Objects")]
@@ -71,7 +68,7 @@ public class HighscoreMenu : Menu
             if (currentScore.id == score.id)
             {
                 isInTop5 = true;
-                highscore.SetColor(yellow);
+                highscore.SetColor(colors.accent);
             }
         }
 
@@ -85,7 +82,7 @@ public class HighscoreMenu : Menu
             ClearHighscoresFromPanel(ownHighscorePanel);
             var highscore = Instantiate(highscorePrefab, ownHighscorePanel.transform);
             highscore.SetValues(currentScore);
-            highscore.SetColor(yellow);
+            highscore.SetColor(colors.accent);
         }
     }
 
@@ -108,11 +105,11 @@ public class HighscoreMenu : Menu
         previousDifferenceTxt.SetText(string.Format("{0,6}", difference.ToString("+#;-#;0")));
         if (difference > 0)
         {
-            previousDifferenceTxt.color = green;
+            previousDifferenceTxt.color = colors.positive;
         }
         else if (difference < 0)
         {
-            previousDifferenceTxt.color = red;
+            previousDifferenceTxt.color = colors.negative;
         }
         else
         {

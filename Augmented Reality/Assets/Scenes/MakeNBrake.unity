@@ -1112,10 +1112,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 476749130}
     m_Modifications:
-    - target: {fileID: 0}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 276542998720751033, guid: 3ba13ee35ffe05e4283d89c9feeb0397,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1156,18 +1152,40 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 276542998720751033, guid: 3ba13ee35ffe05e4283d89c9feeb0397,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 276542998720751033, guid: 3ba13ee35ffe05e4283d89c9feeb0397,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 276542998720751033, guid: 3ba13ee35ffe05e4283d89c9feeb0397,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 276542998720751034, guid: 3ba13ee35ffe05e4283d89c9feeb0397,
         type: 3}
       propertyPath: m_Name
       value: Floor
       objectReference: {fileID: 0}
-    - target: {fileID: 276542998720751034, guid: 3ba13ee35ffe05e4283d89c9feeb0397,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ba13ee35ffe05e4283d89c9feeb0397, type: 3}
+--- !u!114 &276542997748311576 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5322818441023226272, guid: 3ba13ee35ffe05e4283d89c9feeb0397,
+    type: 3}
+  m_PrefabInstance: {fileID: 276542997748311575}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf4541eb47c5d444c85c027609ec8e5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1159989136713489774
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1610,6 +1628,11 @@ PrefabInstance:
       propertyPath: visualizer
       value: 
       objectReference: {fileID: 1246501283}
+    - target: {fileID: 5677107297312951459, guid: 6fa2a33893ae0604eae329c029344cec,
+        type: 3}
+      propertyPath: floor
+      value: 
+      objectReference: {fileID: 276542997748311576}
     - target: {fileID: 5677107297395081018, guid: 6fa2a33893ae0604eae329c029344cec,
         type: 3}
       propertyPath: mainMenu
@@ -1733,6 +1756,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_textInfo.pageCount
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1752521600923720464, guid: e1801434128f0b34ea8d967605ff2d3d,
+        type: 3}
+      propertyPath: red.r
+      value: 0.8584906
+      objectReference: {fileID: 0}
+    - target: {fileID: 1752521600923720464, guid: e1801434128f0b34ea8d967605ff2d3d,
+        type: 3}
+      propertyPath: red.g
+      value: 0.06074225
+      objectReference: {fileID: 0}
+    - target: {fileID: 1752521600923720464, guid: e1801434128f0b34ea8d967605ff2d3d,
+        type: 3}
+      propertyPath: red.b
+      value: 0.06074225
       objectReference: {fileID: 0}
     - target: {fileID: 2768308313091800691, guid: e1801434128f0b34ea8d967605ff2d3d,
         type: 3}
