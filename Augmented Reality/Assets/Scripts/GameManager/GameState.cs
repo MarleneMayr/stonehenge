@@ -30,11 +30,18 @@ public class GameState : State
 
     public override void AfterActivate()
     {
+        playground.SetActive(true);
         highscore.gameScore = 0;
+        gameMenu.SetScoreTxt(0);
 
         countdownMenu.StartCountdown(StartGame);
         gameMenu.SetTimerWarning(false);
         audioManager.PlayOnce(AudioManager.GlobalSound.Countdown);
+
+        if (imageTarget.trackerLost)
+        {
+            Pause();
+        }
     }
 
     public override void BeforeDeactivate()
@@ -106,6 +113,7 @@ public class GameState : State
         Time.timeScale = 0f;
 
         audioManager.PauseIfPlaying(AudioManager.GlobalSound.Countdown);
+        audioManager.PauseIfPlaying(AudioManager.GlobalSound.Last10Seconds);
         audioManager.PauseIfPlaying(AudioManager.GlobalSound.TickingLoop);
     }
 
@@ -120,6 +128,7 @@ public class GameState : State
         if (!keepSelectionOnPause) selectionManager.Activate();
 
         audioManager.ResumeIfPaused(AudioManager.GlobalSound.Countdown);
+        audioManager.ResumeIfPaused(AudioManager.GlobalSound.Last10Seconds);
         audioManager.ResumeIfPaused(AudioManager.GlobalSound.TickingLoop);
     }
 
@@ -127,6 +136,8 @@ public class GameState : State
     {
         gameMenu.SetTimerTxt(time);
         gameMenu.SetTimerWarning(time <= 10);
+        if (time == 10) audioManager.PlayOnce(AudioManager.GlobalSound.Last10Seconds);
+        if (time > 10) audioManager.Stop(AudioManager.GlobalSound.Last10Seconds);
     }
 
     private void UpdateScore(int ingredientCount)

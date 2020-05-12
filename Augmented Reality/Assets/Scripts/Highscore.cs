@@ -16,25 +16,26 @@ public class Highscore : MonoBehaviour
         dreamlo = dreamloLeaderBoard.GetSceneDreamloLeaderboard();
     }
 
-    public void UploadScore()
+    public void UploadScore(Action onDataAvailable)
     {
         if (dreamlo.publicCode == "") Debug.LogError("Dreamlo: publicCode missing");
         if (dreamlo.privateCode == "") Debug.LogError("Dreamlo: privateCode missing");
 
-        dreamlo.AddScore(playerName, gameScore);
+        dreamlo.AddScore(playerName, gameScore, onDataAvailable);
     }
 
     public List<dreamloLeaderBoard.Score> GetTopFive()
     {
         List<dreamloLeaderBoard.Score> highscore = dreamlo.ToListHighToLow();
-        Debug.Log("Highscore length: " + highscore.Count);
         return highscore?.GetRange(0, Mathf.Min(5, highscore.Count));
     }
 
-    public dreamloLeaderBoard.Score GetCurrentRanking()
+    public dreamloLeaderBoard.Score GetPersonalRanking()
     {
         List<dreamloLeaderBoard.Score> highscore = dreamlo.ToListHighToLow();
-        return highscore.Find(score => score.playerName == playerName && score.score == gameScore);
+        dreamloLeaderBoard.Score currentRanking = highscore.Find(score => score.playerName == playerName);
+        if (currentRanking.playerName == null) Debug.LogWarning("Dreamlo: Personal ranking could not be retrieved! ");
+        return currentRanking;
     }
 
     public void GetPersonalBest(Action<dreamloLeaderBoard.Score> returnAction)
@@ -54,7 +55,7 @@ public class Highscore : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Dreamlo: Previous Highscore List could not be loaded");
+            Debug.LogWarning("Dreamlo: Previous Highscore List could not be loaded (this is ok if it is your first time playing with this name)");
         }
     }
 

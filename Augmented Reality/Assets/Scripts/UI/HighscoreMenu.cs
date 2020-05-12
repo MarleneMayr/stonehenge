@@ -58,20 +58,20 @@ public class HighscoreMenu : Menu
         scoreTxt.SetText(score.ToString());
     }
 
-    public void ShowOnlineHighscores(List<dreamloLeaderBoard.Score> scores, dreamloLeaderBoard.Score currentScore, dreamloLeaderBoard.Score previousScore)
+    public void ShowOnlineHighscores(List<dreamloLeaderBoard.Score> top5, dreamloLeaderBoard.Score personalHighscore, dreamloLeaderBoard.Score previousBest, int currentScore)
     {
         enterNamePanel.SetActive(false);
         onlinePanel.SetActive(true);
 
-        ShowPreviousHighscore(previousScore, currentScore.score);
+        if (previousBest.playerName != null) ShowPreviousHighscore(previousBest, currentScore);
 
         ClearHighscoresFromPanel(highscorePanel);
         bool isInTop5 = false;
-        foreach (var score in scores)
+        foreach (var score in top5)
         {
             var highscore = Instantiate(highscorePrefab, highscorePanel.transform);
             highscore.SetValues(score);
-            if (currentScore.id == score.id)
+            if (personalHighscore.id == score.id)
             {
                 isInTop5 = true;
                 highscore.SetColor(yellow);
@@ -87,7 +87,7 @@ public class HighscoreMenu : Menu
             ownHighscorePanel.SetActive(true);
             ClearHighscoresFromPanel(ownHighscorePanel);
             var highscore = Instantiate(highscorePrefab, ownHighscorePanel.transform);
-            highscore.SetValues(currentScore);
+            highscore.SetValues(personalHighscore);
             highscore.SetColor(yellow);
         }
     }
@@ -108,7 +108,7 @@ public class HighscoreMenu : Menu
         previousScoreTxt.SetText(previousScore.score.ToString());
 
         int difference = currentScore - previousScore.score;
-        previousDifferenceTxt.SetText(string.Format("{0,6}", difference.ToString("+#;-#;0")));
+        previousDifferenceTxt.SetText(string.Format("{0,6}", difference.ToString("+#;-#;+/-0")));
         if (difference > 0)
         {
             previousDifferenceTxt.color = green;

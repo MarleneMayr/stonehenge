@@ -9,6 +9,10 @@ public class HighscoreState : State
     private HighscoreMenu highscoreMenu;
     private AudioManager audioManager;
 
+    private dreamloLeaderBoard.Score previousBest;
+    private dreamloLeaderBoard.Score personalHighscore;
+    private List<dreamloLeaderBoard.Score> topFive;
+
     protected override void Awake()
     {
         base.Awake();
@@ -19,14 +23,16 @@ public class HighscoreState : State
     public override void AfterActivate()
     {
         highscoreMenu.ShowScore(highscore.gameScore);
-        highscoreMenu.ShowNamePanel();
+        highscoreMenu.ShowNamePanel(highscore.playerName);
         highscoreMenu.OnPlayAgainPressed.AddListener(PlayAgain);
         highscoreMenu.OnSubmitName.AddListener(StoreScoreAndShowLeaderboard);
     }
 
     public override void BeforeDeactivate()
     {
-
+        highscoreMenu.OnPlayAgainPressed.RemoveListener(PlayAgain);
+        highscoreMenu.OnSubmitName.RemoveListener(StoreScoreAndShowLeaderboard);
+        highscoreMenu.Hide(0);
     }
 
     public override void OnTrackerLost()
@@ -47,18 +53,23 @@ public class HighscoreState : State
 
     private void StoreScoreAndShowLeaderboard(string name)
     {
+        audioManager.Play(AudioManager.GlobalSound.Click);
         highscore.playerName = name;
-        highscore.GetPersonalBest(GotPreviousBest);
-        
-        List<dreamloLeaderBoard.Score> scores = highscore.GetTopFive();
-        dreamloLeaderBoard.Score currentScore = highscore.GetCurrentRanking();
-
-        //highscoreMenu.ShowOnlineHighscores(scores, currentScore, previousBest);
+        Debug.Log("Name set to " + highscore.playerName);
+        highscore.GetPersonalBest(GotPreviousBest);       
     }
 
     private void GotPreviousBest(dreamloLeaderBoard.Score previousBest)
     {
-        Debug.Log("Previous best for " + previousBest.playerName + " : " + previousBest.score);
-        highscore.UploadScore(); // once this is finished call action to receive rest and display
+        this.previousBest = previousBest;
+        highscore.UploadScore(AfterUpload); // once this is finished call action to receive rest and display
+    }
+
+    private void AfterUpload()
+    {
+        personalHighscore = highscore.GetPersonalRanking();
+        topFive = highscore.GetTopFive();
+
+        highscoreMenu.ShowOnlineHighscores(topFive, personalHighscore, previousBest, highscore.gameScore);
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System;
 
 using UnityEngine.Networking;
+using System.Globalization;
 
 public class dreamloLeaderBoard : MonoBehaviour {
 
@@ -12,6 +13,7 @@ public class dreamloLeaderBoard : MonoBehaviour {
 	public bool IUpgradedAndGotSSL = false;
 	public string privateCode = "";
 	public string publicCode = "";
+    public string dateFormatString = "dd.MM.yyyy";
 	
 	string highScores = "";
 	
@@ -65,40 +67,40 @@ public class dreamloLeaderBoard : MonoBehaviour {
 		return go.GetComponent<dreamloLeaderBoard>();
 	}
 	
-	public void AddScore(string playerName, int totalScore)
+	public void AddScore(string playerName, int totalScore, Action onDataAvailable = null)
 	{
-		AddScoreWithPipe(playerName, totalScore);
+		AddScoreWithPipe(playerName, totalScore, onDataAvailable);
 	}
 	
-	public void AddScore(string playerName, int totalScore, int totalSeconds)
+	public void AddScore(string playerName, int totalScore, int totalSeconds, Action onDataAvailable = null)
 	{
-		AddScoreWithPipe(playerName, totalScore, totalSeconds);
+		AddScoreWithPipe(playerName, totalScore, totalSeconds, onDataAvailable);
 	}
 	
-	public void AddScore(string playerName, int totalScore, int totalSeconds, string shortText)
+	public void AddScore(string playerName, int totalScore, int totalSeconds, string shortText, Action onDataAvailable = null)
 	{
-		AddScoreWithPipe(playerName, totalScore, totalSeconds, shortText);
+		AddScoreWithPipe(playerName, totalScore, totalSeconds, shortText, onDataAvailable);
 	}
 	
 	// This function saves a trip to the server. Adds the score and retrieves results in one trip.
-	void AddScoreWithPipe(string playerName, int totalScore)
+	void AddScoreWithPipe(string playerName, int totalScore, Action onDataAvailable = null)
 	{
 		playerName = Clean(playerName);
-		StartCoroutine(GetRequest(dreamloWebserviceURL + privateCode + "/add-pipe/" + UnityWebRequest.EscapeURL(playerName) + "/" + totalScore.ToString()));
+		StartCoroutine(GetRequest(dreamloWebserviceURL + privateCode + "/add-pipe/" + UnityWebRequest.EscapeURL(playerName) + "/" + totalScore.ToString(), onDataAvailable));
 	}
 	
-	void AddScoreWithPipe(string playerName, int totalScore, int totalSeconds)
+	void AddScoreWithPipe(string playerName, int totalScore, int totalSeconds, Action onDataAvailable = null)
 	{
 		playerName = Clean(playerName);
-		StartCoroutine(GetRequest(dreamloWebserviceURL + privateCode + "/add-pipe/" + UnityWebRequest.EscapeURL(playerName) + "/" + totalScore.ToString()+ "/" + totalSeconds.ToString()));
+		StartCoroutine(GetRequest(dreamloWebserviceURL + privateCode + "/add-pipe/" + UnityWebRequest.EscapeURL(playerName) + "/" + totalScore.ToString()+ "/" + totalSeconds.ToString(), onDataAvailable));
 	}
 	
-	void AddScoreWithPipe(string playerName, int totalScore, int totalSeconds, string shortText)
+	void AddScoreWithPipe(string playerName, int totalScore, int totalSeconds, string shortText, Action onDataAvailable = null)
 	{
 		playerName = Clean(playerName);
 		shortText = Clean(shortText);
 		
-		StartCoroutine(GetRequest(dreamloWebserviceURL + privateCode + "/add-pipe/" + UnityWebRequest.EscapeURL(playerName) + "/" + totalScore.ToString() + "/" + totalSeconds.ToString()+ "/" + shortText));
+		StartCoroutine(GetRequest(dreamloWebserviceURL + privateCode + "/add-pipe/" + UnityWebRequest.EscapeURL(playerName) + "/" + totalScore.ToString() + "/" + totalSeconds.ToString()+ "/" + shortText, onDataAvailable));
 	}
 
     
@@ -184,12 +186,16 @@ public class dreamloLeaderBoard : MonoBehaviour {
 			current.seconds = 0;
 			current.shortText = "";
 			current.dateString = "";
-            current.id = i;
+            current.id = i+1;
 			if (values.Length > 1) current.score = CheckInt(values[1]);
 			if (values.Length > 2) current.seconds = CheckInt(values[2]);
 			if (values.Length > 3) current.shortText = values[3];
-			if (values.Length > 4) current.dateString = values[4];
-			scoreList[i] = current;
+            if (values.Length > 4)
+            {
+                DateTime date = DateTime.Parse(values[4], CultureInfo.CreateSpecificCulture("en-US"));
+                current.dateString = date.ToString(dateFormatString);
+            }
+            scoreList[i] = current;
 		}
 		
 		return scoreList;

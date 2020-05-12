@@ -12,6 +12,7 @@ public class ImageTargetHandler : MonoBehaviour, ITrackableEventHandler
     private FixedJoint joint;
     public UnityEvent OnTrackerFound;
     public UnityEvent OnTrackerLost;
+    public bool trackerLost = false;
 
     void Start()
     {
@@ -32,12 +33,14 @@ public class ImageTargetHandler : MonoBehaviour, ITrackableEventHandler
             // target is found
             joint.connectedBody = playground.GetComponent<Rigidbody>();
             OnTrackerFound.Invoke();
+            trackerLost = false;
         }
         else
         {
             // target is lost
             OnTrackerLost.Invoke();
             joint.connectedBody = null;
+            trackerLost = true;
         }
     }
 }

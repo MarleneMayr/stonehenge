@@ -12,7 +12,7 @@ public class HighscoreUI : MonoBehaviour
     public void SetValues(dreamloLeaderBoard.Score score)
     {
         PositionTxt.SetText(String.Format("{0,4}.", score.id));
-        ScoreTxt.SetText(String.Format("{0,6}.", score.id));
+        ScoreTxt.SetText(String.Format("{0,6}", score.score));
         NameTxt.SetText(score.playerName);
         DateTxt.SetText(score.dateString);
     }
