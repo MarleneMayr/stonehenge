@@ -5,6 +5,9 @@ using System.Linq;
 
 public static class BrickUtility
 {
+
+    #if UNITY_EDITOR
+
     [MenuItem("Tools/Voxels/Align all bricks &a")] // access this command with alt+a
     public static void AlignAllBricks()
     {
@@ -31,6 +34,8 @@ public static class BrickUtility
             Debug.LogWarning("No physicsBrick selected!");
         }
     }
+
+    #endif
 
     /// <summary>
     /// aligns the brick in voxel space, setting position and rotation to the nearest voxel values

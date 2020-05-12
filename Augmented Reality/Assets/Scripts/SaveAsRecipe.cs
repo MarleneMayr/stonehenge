@@ -5,6 +5,9 @@ using Bricks;
 
 public class SaveAsRecipe
 {
+
+    #if UNITY_EDITOR
+
     public static Recipe CreateRecipeAsset(bool redirectToAsset = true)
     {
         Recipe asset = ScriptableObject.CreateInstance<Recipe>();
@@ -21,6 +24,8 @@ public class SaveAsRecipe
         }
         return asset;
     }
+
+    #endif
 
     private static RecipeBrick[] GetCurrentBricks()
     {

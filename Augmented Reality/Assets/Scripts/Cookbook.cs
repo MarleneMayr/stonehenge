@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
-using UnityEditor;
 using System.Collections.Generic;
+
+#if UNITY_EDITOR
+using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEditor.Experimental.SceneManagement;
+#endif
 
 public class Cookbook : MonoBehaviour
 {
@@ -16,6 +19,8 @@ public class Cookbook : MonoBehaviour
         if (recipeIndex >= recipes.Length) recipeIndex = 0;
         return next;
     }
+
+    #if UNITY_EDITOR
 
     [CustomEditor(typeof(Cookbook))]
     [CanEditMultipleObjects]
@@ -81,4 +86,6 @@ public class Cookbook : MonoBehaviour
             }
         }
     }
+    
+    #endif
 }
