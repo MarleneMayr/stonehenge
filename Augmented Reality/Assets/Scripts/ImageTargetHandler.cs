@@ -32,15 +32,17 @@ public class ImageTargetHandler : MonoBehaviour, ITrackableEventHandler
         {
             // target is found
             joint.connectedBody = playground.GetComponent<Rigidbody>();
-            OnTrackerFound.Invoke();
+            if (trackerLost)
+                OnTrackerFound.Invoke();
             trackerLost = false;
         }
         else
         {
             // target is lost
-            OnTrackerLost.Invoke();
-            joint.connectedBody = null;
+            if (!trackerLost)
+                OnTrackerLost.Invoke();
             trackerLost = true;
+            joint.connectedBody = null;
         }
     }
 }
