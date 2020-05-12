@@ -479,9 +479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f06b9466158b77346ae7be1a2923bdf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  yellow: {r: 1, g: 0.8039216, b: 0.101960786, a: 1}
-  green: {r: 0.15873085, g: 0.8207547, b: 0.33634698, a: 1}
-  red: {r: 0.8490566, g: 0, b: 0, a: 1}
+  colors: {fileID: 11400000, guid: ca30273d95758f947b047c903eaefcfa, type: 2}
   scoreTxt: {fileID: 2768308313091800691}
   onlinePanel: {fileID: 2426868602714362756}
   nameInput: {fileID: 343456425745327399}

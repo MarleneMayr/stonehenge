@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a8569e7c1d385147a1c4622787c74a7, type: 3}
+  m_Name: ColorPaletteUI
+  m_EditorClassIdentifier: 
+  accent: {r: 1, g: 0.8039216, b: 0.101960786, a: 1}
+  positive: {r: 0.15686275, g: 0.81960785, b: 0.3372549, a: 1}
+  negative: {r: 0.85882354, g: 0.0627451, b: 0.0627451, a: 1}
