@@ -9,6 +9,7 @@ public class GameState : State
     [SerializeField] private Cookbook cookbook;
     [SerializeField] private RecipeVisualizer visualizer;
     [SerializeField] private GameObject playground;
+    [SerializeField] private Highscore highscore;
 
     [SerializeField] private CountdownMenu countdownMenu;
     [SerializeField] private GameMenu gameMenu;
@@ -19,7 +20,6 @@ public class GameState : State
     private Timer timer;
     private SelectionManager selectionManager;
     private AudioManager audioManager;
-    private int score = 0;
 
     protected override void Awake()
     {
@@ -31,7 +31,10 @@ public class GameState : State
 
     public override void AfterActivate()
     {
-        score = 0;
+        playground.SetActive(true);
+        highscore.gameScore = 0;
+        gameMenu.SetScoreTxt(0);
+
         countdownMenu.StartCountdown(StartGame);
         gameMenu.SetTimerWarning(false);
         audioManager.PlayOnce(AudioManager.GlobalSound.Countdown);
@@ -42,6 +45,11 @@ public class GameState : State
         moldChecker.StartChecking(next);
         moldChecker.OnMoldMatch.AddListener(NextRecipe);
         moldChecker.OnMoldMatch.AddListener(UpdateScore);
+
+        if (imageTarget.trackerLost)
+        {
+            Pause();
+        }
     }
 
     public override void BeforeDeactivate()
@@ -110,6 +118,7 @@ public class GameState : State
         Time.timeScale = 0f;
 
         audioManager.PauseIfPlaying(AudioManager.GlobalSound.Countdown);
+        audioManager.PauseIfPlaying(AudioManager.GlobalSound.Last10Seconds);
         audioManager.PauseIfPlaying(AudioManager.GlobalSound.TickingLoop);
     }
 
@@ -124,6 +133,7 @@ public class GameState : State
         if (!keepSelectionOnPause) selectionManager.Activate();
 
         audioManager.ResumeIfPaused(AudioManager.GlobalSound.Countdown);
+        audioManager.ResumeIfPaused(AudioManager.GlobalSound.Last10Seconds);
         audioManager.ResumeIfPaused(AudioManager.GlobalSound.TickingLoop);
     }
 
@@ -131,12 +141,14 @@ public class GameState : State
     {
         gameMenu.SetTimerTxt(time);
         gameMenu.SetTimerWarning(time <= 10);
+        if (time == 10) audioManager.PlayOnce(AudioManager.GlobalSound.Last10Seconds);
+        if (time > 10) audioManager.Stop(AudioManager.GlobalSound.Last10Seconds);
     }
 
     private void UpdateScore(int ingredientCount)
     {
-        score += ingredientCount * 100;
-        gameMenu.SetScoreTxt(score);
+        highscore.gameScore += ingredientCount * 100;
+        gameMenu.SetScoreTxt(highscore.gameScore);
     }
 
     private void EndGame()

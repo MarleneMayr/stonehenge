@@ -8,7 +8,7 @@ public abstract class State : MonoBehaviour
     protected float menuFadeDuration = 0.2f;
 
     protected StateMachine stateMachine;  
-    private ImageTargetHandler imageTarget;
+    protected ImageTargetHandler imageTarget;
 
     protected virtual void Awake()
     {

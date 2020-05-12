@@ -12,7 +12,6 @@ public class HighscoreMenu : Menu
     public Color green;
     public Color red;
 
-    [Space]
     [Header("UI Objects")]
     public TMP_Text scoreTxt;
     public GameObject onlinePanel;
@@ -31,9 +30,13 @@ public class HighscoreMenu : Menu
     public GameObject ownHighscorePanel;
     public HighscoreUI highscorePrefab;
 
+
+    [System.Serializable]
+    public class StringEvent : UnityEvent<string> { }
+
     [Space]
     [Header("Events")]
-    public UnityEvent<string> OnSubmitName;
+    public StringEvent OnSubmitName;
     public UnityEvent OnPlayAgainPressed;
 
     public void SubmitName()
@@ -55,20 +58,20 @@ public class HighscoreMenu : Menu
         scoreTxt.SetText(score.ToString());
     }
 
-    public void ShowOnlineHighscores(List<Score> scores, Score currentScore, Score previousScore)
+    public void ShowOnlineHighscores(List<dreamloLeaderBoard.Score> top5, dreamloLeaderBoard.Score personalHighscore, dreamloLeaderBoard.Score previousBest, int currentScore)
     {
         enterNamePanel.SetActive(false);
         onlinePanel.SetActive(true);
 
-        ShowPreviousHighscore(previousScore, currentScore.score);
+        if (previousBest.playerName != null) ShowPreviousHighscore(previousBest, currentScore);
 
         ClearHighscoresFromPanel(highscorePanel);
         bool isInTop5 = false;
-        foreach (var score in scores)
+        foreach (var score in top5)
         {
             var highscore = Instantiate(highscorePrefab, highscorePanel.transform);
             highscore.SetValues(score);
-            if (currentScore.id == score.id)
+            if (personalHighscore.id == score.id)
             {
                 isInTop5 = true;
                 highscore.SetColor(yellow);
@@ -84,7 +87,7 @@ public class HighscoreMenu : Menu
             ownHighscorePanel.SetActive(true);
             ClearHighscoresFromPanel(ownHighscorePanel);
             var highscore = Instantiate(highscorePrefab, ownHighscorePanel.transform);
-            highscore.SetValues(currentScore);
+            highscore.SetValues(personalHighscore);
             highscore.SetColor(yellow);
         }
     }
@@ -97,7 +100,7 @@ public class HighscoreMenu : Menu
         }
     }
 
-    private void ShowPreviousHighscore(Score previousScore, int currentScore)
+    private void ShowPreviousHighscore(dreamloLeaderBoard.Score previousScore, int currentScore)
     {
         previousHighscorePanel.SetActive(true);
 
@@ -105,7 +108,7 @@ public class HighscoreMenu : Menu
         previousScoreTxt.SetText(previousScore.score.ToString());
 
         int difference = currentScore - previousScore.score;
-        previousDifferenceTxt.SetText(string.Format("{0,6}", difference.ToString("+#;-#;0")));
+        previousDifferenceTxt.SetText(string.Format("{0,6}", difference.ToString("+#;-#;+/-0")));
         if (difference > 0)
         {
             previousDifferenceTxt.color = green;
@@ -134,7 +137,8 @@ public class HighscoreMenu : Menu
         else
         {
             nameInput.text = string.Empty;
-            nameInput.placeholder.GetComponent<Text>().text = "Name...";
+            var placeholder = nameInput.placeholder;
+            placeholder.GetComponent<TextMeshProUGUI>().text = "Name...";
         }
     }
 
@@ -142,15 +146,4 @@ public class HighscoreMenu : Menu
     {
         OnPlayAgainPressed?.Invoke();
     }
-}
-
-// TODO delete temporary struct
-public struct Score
-{
-    public string playerName;
-    public int score;
-    public int seconds;
-    public int id;
-    public string shortText;
-    public string dateString;
 }
