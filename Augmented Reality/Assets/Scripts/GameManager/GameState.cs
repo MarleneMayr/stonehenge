@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class GameState : State
 {
@@ -9,6 +6,7 @@ public class GameState : State
     [SerializeField] private Cookbook cookbook;
     [SerializeField] private RecipeVisualizer visualizer;
     [SerializeField] private GameObject playground;
+    [SerializeField] private Floor floor;
     [SerializeField] private Highscore highscore;
 
     [SerializeField] private CountdownMenu countdownMenu;
@@ -90,6 +88,8 @@ public class GameState : State
         var newTime = timer.AddToTimer(10); // 10 bonus seconds per fulfilled recipe
         UpdateTime(newTime);
 
+        floor.HighlightSuccess();
+
         Recipe next = cookbook.GetNext();
         visualizer.ShowRecipe(next);
         moldChecker.StartChecking(next);
@@ -141,6 +141,7 @@ public class GameState : State
     {
         gameMenu.SetTimerTxt(time);
         gameMenu.SetTimerWarning(time <= 10);
+        floor.ToggleTimeWarning(time <= 10);
         if (time == 10) audioManager.PlayOnce(AudioManager.GlobalSound.Last10Seconds);
         if (time > 10) audioManager.Stop(AudioManager.GlobalSound.Last10Seconds);
     }

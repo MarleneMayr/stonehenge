@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -8,10 +8,9 @@ using UnityEngine.UI;
 public class HighscoreMenu : Menu
 {
     [Header("Colors")]
-    public Color yellow;
-    public Color green;
-    public Color red;
+    public ColorPaletteUI colors;
 
+    [Space]
     [Header("UI Objects")]
     public TMP_Text scoreTxt;
     public GameObject onlinePanel;
@@ -29,7 +28,6 @@ public class HighscoreMenu : Menu
     public GameObject highscorePanel;
     public GameObject ownHighscorePanel;
     public HighscoreUI highscorePrefab;
-
 
     [System.Serializable]
     public class StringEvent : UnityEvent<string> { }
@@ -74,7 +72,7 @@ public class HighscoreMenu : Menu
             if (personalHighscore.id == score.id)
             {
                 isInTop5 = true;
-                highscore.SetColor(yellow);
+                highscore.SetColor(colors.accent);
             }
         }
 
@@ -88,7 +86,7 @@ public class HighscoreMenu : Menu
             ClearHighscoresFromPanel(ownHighscorePanel);
             var highscore = Instantiate(highscorePrefab, ownHighscorePanel.transform);
             highscore.SetValues(personalHighscore);
-            highscore.SetColor(yellow);
+            highscore.SetColor(colors.accent);
         }
     }
 
@@ -108,14 +106,14 @@ public class HighscoreMenu : Menu
         previousScoreTxt.SetText(previousScore.score.ToString());
 
         int difference = currentScore - previousScore.score;
-        previousDifferenceTxt.SetText(string.Format("{0,6}", difference.ToString("+#;-#;+/-0")));
+        previousDifferenceTxt.SetText(string.Format("{0,4}", difference.ToString("+#;-#;+/-0")));
         if (difference > 0)
         {
-            previousDifferenceTxt.color = green;
+            previousDifferenceTxt.color = colors.positive;
         }
         else if (difference < 0)
         {
-            previousDifferenceTxt.color = red;
+            previousDifferenceTxt.color = colors.negative;
         }
         else
         {
