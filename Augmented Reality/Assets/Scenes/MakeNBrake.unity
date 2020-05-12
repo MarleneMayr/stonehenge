@@ -23,7 +23,7 @@ RenderSettings:
   m_AmbientSkyColor: {r: 0.72365606, g: 0.77803487, b: 0.8867924, a: 1}
   m_AmbientEquatorColor: {r: 0.47432363, g: 0.4784087, b: 0.4811321, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
-  m_AmbientIntensity: 0.6
+  m_AmbientIntensity: 0.95
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: deb46f439bb43f24fab40cf6558abc39, type: 2}
@@ -1133,7 +1133,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 0.990566, g: 0.9717621, b: 0.9204788, a: 1}
-  m_Intensity: 0.5
+  m_Intensity: 0.65
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -1195,7 +1195,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1001 &276542997748311575
 PrefabInstance:
   m_ObjectHideFlags: 0
