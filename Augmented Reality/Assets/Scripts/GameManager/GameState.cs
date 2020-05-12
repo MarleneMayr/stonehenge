@@ -57,6 +57,7 @@ public class GameState : State
         pausedMenu.Hide();
 
         moldChecker.StopChecking();
+        floor.ToggleTimeWarning(false);
 
         timer.OnTimerTick.RemoveListener(UpdateTime);
         moldChecker.OnMoldMatch.RemoveListener(NextRecipe);
