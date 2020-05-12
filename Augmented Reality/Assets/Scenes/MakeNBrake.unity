@@ -1063,6 +1063,19 @@ MonoBehaviour:
   OnTrackerLost:
     m_PersistentCalls:
       m_Calls: []
+  trackerLost: 0
+--- !u!114 &1953637642 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5322818441023226272, guid: 3ba13ee35ffe05e4283d89c9feeb0397,
+    type: 3}
+  m_PrefabInstance: {fileID: 276542997748311575}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf4541eb47c5d444c85c027609ec8e5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2043588401
 GameObject:
   m_ObjectHideFlags: 0
@@ -1693,6 +1706,16 @@ PrefabInstance:
       propertyPath: highscore
       value: 
       objectReference: {fileID: 976926934}
+    - target: {fileID: 5677107297312951459, guid: 6fa2a33893ae0604eae329c029344cec,
+        type: 3}
+      propertyPath: visualizer
+      value: 
+      objectReference: {fileID: 1246501283}
+    - target: {fileID: 5677107297312951459, guid: 6fa2a33893ae0604eae329c029344cec,
+        type: 3}
+      propertyPath: floor
+      value: 
+      objectReference: {fileID: 1953637642}
     - target: {fileID: 5677107297395081018, guid: 6fa2a33893ae0604eae329c029344cec,
         type: 3}
       propertyPath: mainMenu

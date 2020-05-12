@@ -16,8 +16,8 @@ public class SpriteHighlight : MonoBehaviour
 
     public void HighlightOnce(Color color)
     {
-        SetColor(color, 0.75f);
-        tw.OnComplete(() => ResetColor(0.75f)); ;
+        SetColor(color, 0.5f);
+        tw.OnComplete(() => ResetColor(0.5f)); ;
     }
 
     public void SetColor(Color color, float fadeDuration = 0.2f)
