@@ -27,6 +27,7 @@ public class HighscoreMenu : Menu
     [Header("Leaderboard")]
     public GameObject highscorePanel;
     public GameObject ownHighscorePanel;
+    public HighscoreUI ownHighscore;
     public HighscoreUI highscorePrefab;
 
     [System.Serializable]
@@ -83,10 +84,8 @@ public class HighscoreMenu : Menu
         else
         {
             ownHighscorePanel.SetActive(true);
-            ClearHighscoresFromPanel(ownHighscorePanel);
-            var highscore = Instantiate(highscorePrefab, ownHighscorePanel.transform);
-            highscore.SetValues(personalHighscore);
-            highscore.SetColor(colors.accent);
+            ownHighscore.SetValues(personalHighscore);
+            ownHighscore.SetColor(colors.accent);
         }
     }
 
