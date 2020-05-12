@@ -57,6 +57,7 @@ public class GameState : State
         pausedMenu.Hide();
 
         moldChecker.StopChecking();
+        floor.ToggleTimeWarning(false);
 
         timer.OnTimerTick.RemoveListener(UpdateTime);
         moldChecker.OnMoldMatch.RemoveListener(NextRecipe);
@@ -114,7 +115,8 @@ public class GameState : State
 
         if (!keepSelectionOnPause) selectionManager.Deactivate();
 
-        playground.SetActive(false);
+        playground.transform.localScale = new Vector3(0, 0, 0);
+        //playground.SetActive(false);
         Time.timeScale = 0f;
 
         audioManager.PauseIfPlaying(AudioManager.GlobalSound.Countdown);
@@ -124,9 +126,9 @@ public class GameState : State
 
     public void Unpause()
     {
-        playground.SetActive(true);
+        //playground.SetActive(true);
+        playground.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
         Time.timeScale = 1f;
-
         pausedMenu.Hide(0);
 
         if (!countdownMenu.isRunning) gameMenu.Show();
