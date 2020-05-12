@@ -16,7 +16,6 @@ public class MoldChecker : MonoBehaviour
     private void Start()
     {
         var brickSpawner = FindObjectOfType<PhysicsBrickSpawner>();
-        brickSpawner.OnSpawnedAllBricks.AddListener((PhysicsBrick[] spawnedBricks) => bricks = spawnedBricks);
         audioManager = FindObjectOfType<AudioManager>();
     }
 
@@ -42,6 +41,11 @@ public class MoldChecker : MonoBehaviour
         {
             yield return new WaitForSeconds(interval);
         }
+    }
+
+    public void SetPhysicsBricks(PhysicsBrick[] allBricks)
+    {
+        bricks = allBricks;
     }
 
     private bool CheckRecipe()

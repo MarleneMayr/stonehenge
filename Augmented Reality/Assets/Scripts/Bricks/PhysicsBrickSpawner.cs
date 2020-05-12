@@ -13,9 +13,7 @@ public class PhysicsBrickSpawner : MonoBehaviour
     [SerializeField] private Vector3 orientation; // should be Vector3(0, 0, 1) but is open for tweaking
     [SerializeField] private ColorPalette colorPalette;
 
-    private List<PhysicsBrick> spawnedBricks = new List<PhysicsBrick>();
-    [Serializable] public class BrickEvent : UnityEvent<PhysicsBrick[]> { }
-    public BrickEvent OnSpawnedAllBricks;
+    private PhysicsBrick[] spawnedBricks;
 
     private void OnValidate()
     {
@@ -25,10 +23,35 @@ public class PhysicsBrickSpawner : MonoBehaviour
         }
     }
 
-    public void Start()
+    public void RepositionAllBricks()
+    {
+        foreach (var brick in spawnedBricks)
+        {
+            RespawnBrick(brick); // repositions to spawn position
+        }
+    }
+
+    public PhysicsBrick[] SpawnAllBricks()
     {
         UpdateSpawnerLocation();
-        SpawnAllBricks();
+
+        spawnedBricks = new PhysicsBrick[brickAmount];
+
+        // first spawn the reference brick for all other bricks and itself with id=0
+        var reference = Instantiate(referenceBrickPrefab, transform);
+        InitBrick(reference.GetComponent<PhysicsBrick>(), 0, reference);
+        spawnedBricks[0] = reference.GetComponent<PhysicsBrick>();
+
+        // then spawn the remaining bricks
+        for (int i = 1; i < brickAmount; i++)
+        {
+            var brick = Instantiate(brickPrefab, transform);
+            InitBrick(brick, i, reference);
+            spawnedBricks[i] = brick;
+
+            print(spawnedBricks[i]);
+        }
+        return spawnedBricks;
     }
 
     private void UpdateSpawnerLocation()
@@ -38,28 +61,12 @@ public class PhysicsBrickSpawner : MonoBehaviour
         transform.localPosition = new Vector3(x, transform.localPosition.y, transform.localPosition.z);
     }
 
-    public void SpawnAllBricks()
-    {
-        // first spawn the reference brick for all other bricks and itself with id=0
-        var reference = Instantiate(referenceBrickPrefab, transform);
-        InitBrick(reference.GetComponent<PhysicsBrick>(), 0, reference);
-
-        // then spawn the remaining bricks
-        for (int i = 1; i < brickAmount; i++)
-        {
-            var brick = Instantiate(brickPrefab, transform);
-            InitBrick(brick, i, reference);
-        }
-        OnSpawnedAllBricks?.Invoke(spawnedBricks.ToArray());
-    }
-
     private void InitBrick(PhysicsBrick brick, int identifier, VoxelReference reference)
     {
         brick.SetID(identifier, colorPalette.Colors[identifier]);
         brick.SetReferenceBrick(reference);
         BrickUtility.PlaceBrickAbsolute(brick, GetSpawnPosition(identifier), orientation);
         brick.OnBrickFellDown.AddListener(RespawnBrick);
-        spawnedBricks.Add(brick);
     }
 
     private void RespawnBrick(PhysicsBrick brick)
