@@ -35,11 +35,12 @@ public class PhysicsBrickSpawner : MonoBehaviour
     {
         UpdateSpawnerLocation();
 
+        spawnedBricks = new PhysicsBrick[brickAmount];
+
         // first spawn the reference brick for all other bricks and itself with id=0
         var reference = Instantiate(referenceBrickPrefab, transform);
         InitBrick(reference.GetComponent<PhysicsBrick>(), 0, reference);
-
-        spawnedBricks = new PhysicsBrick[brickAmount];
+        spawnedBricks[0] = reference.GetComponent<PhysicsBrick>();
 
         // then spawn the remaining bricks
         for (int i = 1; i < brickAmount; i++)
@@ -47,6 +48,8 @@ public class PhysicsBrickSpawner : MonoBehaviour
             var brick = Instantiate(brickPrefab, transform);
             InitBrick(brick, i, reference);
             spawnedBricks[i] = brick;
+
+            print(spawnedBricks[i]);
         }
         return spawnedBricks;
     }
