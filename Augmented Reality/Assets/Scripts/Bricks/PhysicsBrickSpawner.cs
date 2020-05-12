@@ -11,7 +11,7 @@ public class PhysicsBrickSpawner : MonoBehaviour
     [SerializeField] private int brickAmount; // 6 bricks for now
     [SerializeField] private float spacing; // should be 0.5f but is open for tweaking
     [SerializeField] private Vector3 orientation; // should be Vector3(0, 0, 1) but is open for tweaking
-    [SerializeField] private Color[] colors;
+    [SerializeField] private ColorPalette colorPalette;
 
     private List<PhysicsBrick> spawnedBricks = new List<PhysicsBrick>();
     [Serializable] public class BrickEvent : UnityEvent<PhysicsBrick[]> { }
@@ -19,17 +19,9 @@ public class PhysicsBrickSpawner : MonoBehaviour
 
     private void OnValidate()
     {
-        if (colors.Length < brickAmount)
+        if (colorPalette.Colors.Length < brickAmount)
         {
             Debug.LogWarning($"{brickAmount} bricks need at least {brickAmount} colors!");
-            Array.Resize(ref colors, brickAmount);
-        }
-        foreach (var color in colors)
-        {
-            if (color.a < 0.5f)
-            {
-                Debug.LogWarning($"Color alpha value {color.a} will not be visible on the brick!");
-            }
         }
     }
 
@@ -63,7 +55,7 @@ public class PhysicsBrickSpawner : MonoBehaviour
 
     private void InitBrick(PhysicsBrick brick, int identifier, VoxelReference reference)
     {
-        brick.SetID(identifier, colors[identifier]);
+        brick.SetID(identifier, colorPalette.Colors[identifier]);
         brick.SetReferenceBrick(reference);
         BrickUtility.PlaceBrickAbsolute(brick, GetSpawnPosition(identifier), orientation);
         brick.OnBrickFellDown.AddListener(RespawnBrick);
