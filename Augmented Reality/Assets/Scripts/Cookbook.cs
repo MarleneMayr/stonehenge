@@ -20,8 +20,7 @@ public class Cookbook : MonoBehaviour
         return next;
     }
 
-    #if UNITY_EDITOR
-
+#if UNITY_EDITOR
     [CustomEditor(typeof(Cookbook))]
     [CanEditMultipleObjects]
     public class CookbookEditor : Editor
@@ -86,6 +85,5 @@ public class Cookbook : MonoBehaviour
             }
         }
     }
-    
-    #endif
+#endif
 }

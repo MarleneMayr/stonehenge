@@ -8,6 +8,7 @@ public class GameState : State
     [SerializeField] private GameObject playground;
     [SerializeField] private Floor floor;
     [SerializeField] private Highscore highscore;
+    [SerializeField] private PhysicsBrickSpawner spawner;
 
     [SerializeField] private CountdownMenu countdownMenu;
     [SerializeField] private GameMenu gameMenu;
@@ -25,11 +26,15 @@ public class GameState : State
         timer = FindObjectOfType<Timer>();
         selectionManager = FindObjectOfType<SelectionManager>();
         audioManager = FindObjectOfType<AudioManager>();
+        var allBricks = spawner.SpawnAllBricks();
+        moldChecker.SetPhysicsBricks(allBricks);
     }
 
     public override void AfterActivate()
     {
         playground.SetActive(true);
+
+        spawner.RepositionAllBricks();
         highscore.gameScore = 0;
         gameMenu.SetScoreTxt(0);
 
