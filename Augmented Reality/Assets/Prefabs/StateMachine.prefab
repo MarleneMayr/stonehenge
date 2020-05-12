@@ -46,7 +46,7 @@ MonoBehaviour:
   GlobalSounds:
   - name: 0
     clip: {fileID: 8300000, guid: 98394926e8c9dc04f8b908f13118be2c, type: 3}
-    volume: 0.8
+    volume: 0.5
     pitch: 1
     loop: 0
     source: {fileID: 0}
